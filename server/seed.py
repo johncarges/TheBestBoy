@@ -5,13 +5,99 @@ from random import randint, choice as rc
 
 # Remote library imports
 from faker import Faker
-
+from datetime import timedelta, datetime as d
 # Local imports
-from app import app
-from models import db
+from app import app, db
+from models import BestBoy, Crewmember, Production, Shootday, Workday
+
+# from models import db
+
+NUMBESTBOYS=2
+NUMPRODUCTIONS=10
+NUMCREWMEMBERS=100
+NUMSHOOTDAYS=20
+NUMWORKDAYS=200
+
+EARLIESTDAY= d.now() - timedelta(days=30)
+LATESTDAY = d.now() + timedelta(days=60)
+
+ROLES = ['Gaffer', 'Best Boy', 'Generator Operator','Lamp Operator','Dimmer Board Operator']
+
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
-        # Seed code goes here!
+        BestBoy.query.delete()
+        Production.query.delete()
+        Shootday.query.delete()
+        Crewmember.query.delete()
+        Workday.query.delete()
+        
+        print("Adding BB's...")
+        for _ in range(NUMBESTBOYS):
+            name = fake.name()
+            username = name.strip(' ').lower()
+            new_bb = BestBoy(name=name, username=username)
+            db.session.add(new_bb)
+        db.session.commit()
+
+        print('Adding Productions...')
+        for _ in range(NUMPRODUCTIONS):
+            name = fake.name()
+            new_prod = Production(name=name, best_boy_id=randint(1,NUMBESTBOYS))
+            db.session.add(new_prod)
+        db.session.commit()
+
+        print('Adding Shootdays...')
+        for _ in range(NUMSHOOTDAYS):
+            prod_id = randint(1,NUMPRODUCTIONS)
+            date = fake.date_between(EARLIESTDAY,LATESTDAY)
+            while Shootday.query.filter_by(date=date).first():
+                date = fake.date_between(EARLIESTDAY,LATESTDAY)
+            #crew_size = randint(1,10)
+            location = fake.locale()
+            notes = fake.paragraph()
+            new_sd = Shootday(production_id=prod_id, date=date, location=location, notes=notes)
+            db.session.add(new_sd)
+            db.session.commit()
+
+        print('Adding crewmembers...')
+        for _ in range(NUMCREWMEMBERS):
+            best_boy_id = randint(1,NUMBESTBOYS)
+            name = fake.name()
+            email = name.strip(' ').lower() + '@gmail.com'
+            phone = fake.phone_number()
+            new_cm = Crewmember(
+                best_boy_id=best_boy_id,
+                name=name,
+                email=email,
+                phone=phone
+            )
+            db.session.add(new_cm)
+        db.session.commit()
+            
+
+        print('Adding Workdays...')
+        count_empty = 0
+        for _ in range(NUMWORKDAYS):
+            shootday_id = randint(1,NUMSHOOTDAYS)
+            role = rc(ROLES)
+            #rate, times, additional_terms
+            if randint(0,5)>1:
+                crewmember_id=randint(1,NUMCREWMEMBERS)
+            else:
+                crewmember_id=None
+                count_empty +=1
+
+
+            new_wd = Workday(
+                shootday_id=shootday_id,
+                role=role,
+                crewmember_id=crewmember_id
+            )
+            db.session.add(new_wd)
+            db.session.commit()
+
+        print(f'{count_empty} open positions')
+
