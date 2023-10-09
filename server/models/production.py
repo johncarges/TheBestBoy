@@ -1,5 +1,6 @@
 from sqlalchemy.ext.associationproxy import association_proxy
 
+from datetime import datetime
 from config import db
 
 class Production(db.Model):
@@ -18,11 +19,28 @@ class Production(db.Model):
     def __repr__(self):
         return f"<Production '{self.name}'>"
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'start_date': self.start_date().isoformat() if self.shootdays else None,
+            'end_date': self.end_date().isoformat() if self.shootdays else None
+        }
+    
     def days_scheduled(self):
         return len(self.shootdays)
     
     def start_date(self):
-        return self.shootdays[0].date # do this the sql way? HOW?
-
+        if self.shootdays:
+            return self.shootdays[0].date # do this the sql way? HOW?  ALSO: PRODUCTION WITHOUT SHOOTDAYS?
+        return None
+    
     def end_date(self):
-        return self.shootdays[-1].date
+        if self.shootdays:
+            return self.shootdays[-1].date
+        return None
+    
+    def is_ongoing(self):
+        if self.end_date():
+            return self.end_date() >= datetime.now()
+        return True                                     # If no dates scheduled, consider it ongoing. User should delete canceled productions

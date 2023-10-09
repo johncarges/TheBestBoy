@@ -1,5 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
+from datetime import datetime
 
 from config import db
 
@@ -24,6 +25,14 @@ class Shootday(db.Model):
     def __repr__(self):
         return f'Shootday {self.day_number()}/{self.production.days_scheduled()} for {self.production.name}' 
     
+    def to_dict(self):
+        return {
+            'id':self.id,
+            'production': {'id':self.production_id, 'name':self.production.name},
+            'date': self.date.isoformat(),
+            'location':self.location,
+        }
+
     def crew_size(self):
         return len(self.workdays)
 

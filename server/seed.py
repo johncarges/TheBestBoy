@@ -34,11 +34,19 @@ if __name__ == '__main__':
         Crewmember.query.delete()
         Workday.query.delete()
         
+        print("Adding user John Carges...")
+        new_bb= BestBoy(first_name="John", last_name="Carges",username="johncarges",email="johncarges@gmail.com")
+        new_bb.password_hash = 'abcd1234'
+        db.session.add(new_bb)
+        db.session.commit()
+
         print("Adding BB's...")
-        for _ in range(NUMBESTBOYS):
-            name = fake.name()
-            username = name.strip(' ').lower()
-            new_bb = BestBoy(name=name, username=username)
+        for _ in range(NUMBESTBOYS - 1):
+            first_name = fake.first_name()
+            last_name = fake.last_name()
+            username = first_name.lower() + last_name.lower()
+            email = username + '@gmail.com'
+            new_bb = BestBoy(first_name=first_name, last_name=last_name, username=username, email=email)
             db.session.add(new_bb)
         db.session.commit()
 
@@ -65,12 +73,14 @@ if __name__ == '__main__':
         print('Adding crewmembers...')
         for _ in range(NUMCREWMEMBERS):
             best_boy_id = randint(1,NUMBESTBOYS)
-            name = fake.name()
-            email = name.strip(' ').lower() + '@gmail.com'
+            first_name = fake.first_name()
+            last_name = fake.last_name()
+            email = first_name.lower() + last_name.lower() + '@gmail.com'
             phone = fake.phone_number()
             new_cm = Crewmember(
                 best_boy_id=best_boy_id,
-                name=name,
+                first_name=first_name,
+                last_name=last_name,
                 email=email,
                 phone=phone
             )
