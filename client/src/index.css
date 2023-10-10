@@ -5,3 +5,7 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+.crewListBody {
+  display: flex;
+  flex-direction: row;
+}
