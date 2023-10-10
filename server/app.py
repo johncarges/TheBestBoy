@@ -198,7 +198,7 @@ api.add_resource(Workdays, '/workdays')
 class Crewmembers(Resource):
     def get(self):
         if (best_boy_id:=session.get('best_boy_id')):
-            crewmembers = Crewmember.query.filter(Crewmember.best_boy_id==best_boy_id).all()
+            crewmembers = Crewmember.query.filter(Crewmember.best_boy_id==best_boy_id).order_by(Crewmember.last_name).all()
             return [cm.to_dict() for cm in crewmembers], 200
         return {'error':'401 Unauthorized'}, 401
 
@@ -308,9 +308,9 @@ class Login(Resource):
 
                 session['best_boy_id'] = best_boy.id
                 return best_boy.to_dict(), 200
-            return {'error': 'incorrect password'}, 401
+            return {'error': 'Incorrect password'}, 401
 
-        return {'error': 'username not found'}, 401
+        return {'error': 'Username not found'}, 401
 
 api.add_resource(Login, '/login')
 
