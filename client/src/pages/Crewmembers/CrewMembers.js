@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FilterCrew from "./components/FilterCrew";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import CrewmemberTile from "./components/CrewmemberTile";
 
 
 export default function CrewmembersPage() {
@@ -18,21 +19,23 @@ export default function CrewmembersPage() {
 
 
     const renderedCrewmembers = crewmembers.map((crewmember) => (
-        <li key={crewmember.id}>
-            <p>{crewmember.first_name} <b>{crewmember.last_name}</b></p>
-        </li>
+        <CrewmemberTile 
+        key={crewmember.id} 
+        crewmember={crewmember}/>
     ))
 
     return (
-        <div>
+        <div className='crew-list-page-container'>
             <h1>Contacts</h1>
-            <div className='crewListBody'>
+            <div className='crew-list-body'>
                 <FilterCrew/>
-                <div>
+                <div className='crew-list-side'>
                     <NavLink to='/crewmembers/new' exact>
                         Add New Contact
                     </NavLink>
-                    <ul>{renderedCrewmembers}</ul>
+                    <div className='crew-list-container'>
+                        <ul className='crew-list'>{renderedCrewmembers}</ul>
+                    </div>
                 </div>
             </div>
         </div>

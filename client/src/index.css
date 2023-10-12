@@ -3,9 +3,151 @@
   --header: #fff;
   --link: #61dafb;
   --text: hsla(0, 0%, 100%, 0.88);
+  --main-bg-color: #f0f0f0;
+  --gold-detail: #eeb224;
+  --navbar-green:  #558f5d;
 }
 
-.crewListBody {
+.clickable:hover {
+  cursor: pointer;
+}
+
+.navbar-container {
+  display: flex;
+  background-color: var(--navbar-green);
+  justify-content: center;
+  position: sticky;
+  top: 0;
+}
+
+.navbar-main {
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items:center;
+  width:100%;
+  max-width: 1500px;
+  height: 5rem;
+}
+
+.nav-link {
+  display: flex;
+  font:300 sans-serif;
+  color:#282c34;
+  text-decoration: none;
+  padding: 1rem;
+  font-weight:150;
+  margin: 0.25rem;
+}
+
+.nav-link.active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: var(--gold-detail);
+  text-decoration: none;
+}
+
+.logout-button {
+  width:10rem;
+  padding: 1rem;
+  margin: 0rem;
+}
+
+
+.main-body {
+  padding: 1rem;
+  margin: 1rem;
+}
+
+/* CREWMEMBERS PAGE */
+.crew-list-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.crew-list-body {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.crew-filter-container {
+  padding:1rem;
+  width: 30%;
+}
+
+.crew-list-side {
+  padding:1rem;
+  width: 50%
+}
+
+.crew-list-container {
+  max-height: 600px;
+  overflow: auto;
+  margin-top:1rem;
+  border:#9aa3b5 solid 1px;
+  border-top-left-radius: 2%;
+}
+
+.crew-list {
+  margin-top:1rem;
+  margin-bottom: 1rem;
+  padding-left:0;
+  list-style-type: none;
+  /* list-style-position: outside; */
+}
+
+.crew-list :nth-child(2n+2) {
+  background-color: #adb5c3;
+}
+
+.crew-list-item {
+  padding: .5rem 0rem .5rem 3rem;
+}
+
+.crewmember-name {
+  margin: 0
+}
+
+.daygrid-event {
+  border:#282c34 1px solid;
+  color: #fff;
+}
+
+.to-hire {
+  font-size: small;
+}
+
+.fc-daygrid-day-frame {
+  height: 100%
+}
+
+.fc-daygrid-day-bottom {
+  height: 0em;
+}
+
+.shootday-crewlist-name {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* AssignCrewButton */
+.assign-crew-search {
+  width: 100%
+}
+
+.assign-crew-results-container {
+  padding: 1rem;
+}
+
+.assign-crew-results {
+  list-style-type: none;
+  max-height: 200px;
+  overflow: auto;
+}
+
+/* AddWorkdayModal */
+.add-position-input {
+  width: 3rem;
 }

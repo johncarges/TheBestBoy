@@ -71,7 +71,7 @@ class ProductionsByID(Resource):
             return {'error': '404 not found'}, 404
         
         if prod.best_boy_id == session.get('best_boy_id'):
-            return prod.to_dict(), 200
+            return prod.to_dict_with_days(), 200
         return {'error': '401 Unauthorized'}, 401
 
     def patch(self,id):
@@ -147,7 +147,7 @@ class ShootdaysByID(Resource):
         if shootday.production.best_boy_id != bb_id:
             return {'error': '401 Unauthorized'}, 401
         
-        return shootday.to_dict(), 200
+        return shootday.to_dict_full(), 200
     
     def patch(self,id):
         if not (bb_id:=session.get('best_boy_id')):
@@ -191,9 +191,52 @@ class Workdays(Resource):
         pass
 
     def post(self):
-        pass
+        if (best_boy_id:=session.get('best_boy_id')):
+            
+            try:
+                rq = request.get_json()
+                shootday_id = rq['shootday_id']
+                shootday=Shootday.find_by_id(shootday_id)
+                
+                # if shootday.best_boy.id != best_boy_id:
+                #     return {'error':'401 Unauthorized'}, 401 ## Can't association_proxy backref ?
+                response = []
+                print(rq['workdays'])
+                for workday in rq['workdays']:
+                    new_wd = Workday(
+                        shootday_id=shootday_id,
+                        role=workday
+                    )
+                
+                    db.session.add(new_wd)
+                    db.session.commit()
+                    response.append(new_wd.to_dict())
+            
+                return response, 200
+            except ValueError:
+                return {'error': '422 Validation Error'}, 422
+        return {'error':'401 Unauthorized'}, 401
 
 api.add_resource(Workdays, '/workdays')
+
+class WorkdaysByID(Resource):
+    def patch(self, id):
+        print('trying?')
+        if not (wd := Workday.find_by_id(id)):
+            return {'error': '404 not found'}, 404
+        
+        rq = request.get_json()
+        for attr in rq:
+            setattr(wd, attr, rq[attr])
+        db.session.add(wd)
+        db.session.commit()
+        print('committed')
+        return wd.to_dict(), 200
+
+    def delete(self):
+        pass
+
+api.add_resource(WorkdaysByID, '/workdays/<int:id>')
 
 class Crewmembers(Resource):
     def get(self):

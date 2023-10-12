@@ -31,6 +31,14 @@ class Shootday(db.Model):
             'production': {'id':self.production_id, 'name':self.production.name},
             'date': self.date.isoformat(),
             'location':self.location,
+            'to_hire': self.to_hire()
+        }
+    
+    def to_dict_full(self):
+        return {
+            **self.to_dict(),
+            'notes': self.notes,
+            'workdays':[workday.to_dict() for workday in self.workdays]
         }
 
     def crew_size(self):

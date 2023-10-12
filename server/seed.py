@@ -40,6 +40,13 @@ if __name__ == '__main__':
         db.session.add(new_bb)
         db.session.commit()
 
+        print("Adding user Lola...")
+        new_bb= BestBoy(first_name="Lauren", last_name="Laffey",username="Lola",email="johncarges@gmail.com")
+        new_bb.password_hash = 'supersecure'
+        db.session.add(new_bb)
+        db.session.commit()
+
+
         print("Adding BB's...")
         for _ in range(NUMBESTBOYS - 1):
             first_name = fake.first_name()
@@ -64,7 +71,7 @@ if __name__ == '__main__':
             while Shootday.query.filter_by(date=date).first():
                 date = fake.date_between(EARLIESTDAY,LATESTDAY)
             #crew_size = randint(1,10)
-            location = fake.locale()
+            location = fake.city()
             notes = fake.paragraph()
             new_sd = Shootday(production_id=prod_id, date=date, location=location, notes=notes)
             db.session.add(new_sd)
@@ -76,7 +83,7 @@ if __name__ == '__main__':
             first_name = fake.first_name()
             last_name = fake.last_name()
             email = first_name.lower() + last_name.lower() + '@gmail.com'
-            phone = fake.phone_number()
+            phone = f'{randint(100,1000)}-{randint(100,1000)}-{randint(1000,10000)}'
             new_cm = Crewmember(
                 best_boy_id=best_boy_id,
                 first_name=first_name,
@@ -95,7 +102,13 @@ if __name__ == '__main__':
             role = rc(ROLES)
             #rate, times, additional_terms
             if randint(0,5)>1:
+                sd = Shootday.find_by_id(shootday_id)
                 crewmember_id=randint(1,NUMCREWMEMBERS)
+                cm = Crewmember.find_by_id(crewmember_id)
+                while sd in cm.shootdays:
+                    crewmember_id=randint(1,NUMCREWMEMBERS)
+                    cm = Crewmember.find_by_id(crewmember_id)
+
             else:
                 crewmember_id=None
                 count_empty +=1

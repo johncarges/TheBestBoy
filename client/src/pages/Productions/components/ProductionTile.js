@@ -1,3 +1,6 @@
+import React from "react"
+import {useHistory} from 'react-router-dom'
+
 
 export default function ProductionTile({production}) {
     
@@ -6,12 +9,20 @@ export default function ProductionTile({production}) {
         : (<p>No shootdays scheduled yet</p>)
     
 
+    const history = useHistory()
+    
+    function clickIn () {
+        history.push(`/productions/${production.id}`)
+    }
+
+
     return (
-        <li>
+        <li onClick={clickIn}>
             <p>{production.name}</p>
             
             {dates}
         </li>
+
     )
 
 }

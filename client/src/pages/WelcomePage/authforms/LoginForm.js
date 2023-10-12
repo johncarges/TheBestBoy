@@ -3,7 +3,7 @@ import { UserContext } from "../../../context/user"
 
 export default function LoginForm(){
     
-    const {user, setUser} = useContext(UserContext)
+    const {changeUser} = useContext(UserContext)
 
     const [formData, setFormData] = useState({
         username: '',
@@ -28,7 +28,7 @@ export default function LoginForm(){
             body:JSON.stringify(formData)
         }).then(r=> {
             if (r.ok) {
-                r.json().then(setUser)
+                r.json().then(changeUser)
             } else {
                 r.json().then(data=>{setErrorMessage(data['error'])})
             }

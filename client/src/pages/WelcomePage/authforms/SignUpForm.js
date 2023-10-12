@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { UserContext } from "../../../context/user"
 
 
 
@@ -14,7 +15,8 @@ export default function SignUpForm(){
     }
 
     const [formData, setFormData]=useState(initialForm)
-    
+    const {changeUser} = useContext(UserContext)
+
     function onChange(e) {
         setFormData({
             ...formData,
@@ -22,10 +24,25 @@ export default function SignUpForm(){
         })
     }
 
+    function onSubmit(e) {
+        e.preventDefault()
+
+        fetch('/signup', {
+            method: 'POST',
+            headers:{'accepts':'application/json','content-type':'application/json'},
+            body: JSON.stringify(formData)
+        }).then(r=> {
+            if (r.ok) {
+                r.json().then(changeUser)
+            }
+        })
+
+    }
+
     return (
         <div>
             <h1>Signup</h1>
-            <form autocomplete="off">
+            <form onSubmit={onSubmit}>
                 <label>First Name</label>
                 <input 
                     name='first_name'
@@ -57,6 +74,7 @@ export default function SignUpForm(){
                     value={formData.password}
                     onChange={onChange}    
                 />
+                <button type='submit'>Submit</button>
             </form>
         </div>
     )

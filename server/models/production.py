@@ -27,6 +27,12 @@ class Production(db.Model):
             'end_date': self.end_date().isoformat() if self.shootdays else None
         }
     
+    def to_dict_with_days(self):
+        return {
+            **self.to_dict(),
+            'shootdays': [shootday.to_dict() for shootday in self.shootdays] if self.shootdays else []
+        }
+    
     def days_scheduled(self):
         return len(self.shootdays)
     

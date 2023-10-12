@@ -6,13 +6,13 @@ import Main from "./Main"
 
 
 export default function CheckUserContainer() {
-    const {user, setUser} = useContext(UserContext)
+    const {user, changeUser} = useContext(UserContext)
 
     useEffect(()=> {
         fetch('/check_session')
         .then(r=>{
         if (r.ok) {
-            r.json().then(user=>setUser(user))
+            r.json().then(changeUser)
         }
         })
         console.log(user)

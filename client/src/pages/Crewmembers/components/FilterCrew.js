@@ -4,7 +4,7 @@ export default function FilterCrew() {
 
 
     return (
-        <div className='FilterCrewContainer'>
+        <div className='crew-filter-container'>
             <h1>Filter:</h1>
             <h3>Roles</h3>
             <ul>

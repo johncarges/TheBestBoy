@@ -14,7 +14,8 @@ class Crewmember(db.Model):
     phone = db.Column(db.String)
 
     workdays = db.relationship('Workday', backref='crewmember', cascade='all, delete-orphan')
-    
+    shootdays = association_proxy('workdays', 'shootday')
+
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
