@@ -22,7 +22,7 @@ class Workday(db.Model):
         return cls.query.filter_by(id=id).first()
     
     def __repr__(self):
-        return f'{self.crewmember.name} working on {self.shootday}' if self.crewmember_id else f'Open position on {self.shootday}'
+        return f'{self.crewmember.first_name} {self.crewmember.last_name} working on {self.shootday}' if self.crewmember_id else f'Open position on {self.shootday}'
     
     def to_dict(self):
         return {

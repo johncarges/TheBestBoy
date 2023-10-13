@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
         print('Adding Productions...')
         for _ in range(NUMPRODUCTIONS):
-            name = fake.name()
+            name = fake.company()
             new_prod = Production(name=name, best_boy_id=randint(1,NUMBESTBOYS))
             db.session.add(new_prod)
         db.session.commit()
@@ -71,7 +71,8 @@ if __name__ == '__main__':
             while Shootday.query.filter_by(date=date).first():
                 date = fake.date_between(EARLIESTDAY,LATESTDAY)
             #crew_size = randint(1,10)
-            location = fake.city()
+            location_header = ['EXT','INT'][randint(0,1)]
+            location = f'{location_header}: {fake.city()}'
             notes = fake.paragraph()
             new_sd = Shootday(production_id=prod_id, date=date, location=location, notes=notes)
             db.session.add(new_sd)

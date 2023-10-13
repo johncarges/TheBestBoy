@@ -137,6 +137,30 @@ class Shootdays(Resource):
 
 api.add_resource(Shootdays, '/shootdays')
 
+class ShootdaysBulk(Resource):
+    def post(self):
+        if not (id:=session.get('best_boy_id')):
+            return {'error':'401 Unauthorized'}, 401
+
+        rq=request.get_json()
+        if not (prod:=Production.find_by_id(rq.get('production_id'))):
+            return {'error':'Not a valid production'}, 401
+        
+        response = []
+        for shootday in rq.get('dates'):
+            year, month, day = shootday.split('-')
+            # try:
+            new_shootday = Shootday(
+                production_id=rq.get('production_id'),
+                date=datetime(int(year), int(month), int(day)),
+            )
+            db.session.add(new_shootday)
+            db.session.commit()
+            response.append(new_shootday.to_dict())
+        return response, 201
+
+api.add_resource(ShootdaysBulk,'/shootdays_bulk')
+
 class ShootdaysByID(Resource):
 
     def get(self,id):

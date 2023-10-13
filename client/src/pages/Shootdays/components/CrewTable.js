@@ -22,16 +22,18 @@ export default function CrewTable({workdayList, handleUpdateWorkday}) {
     })
 
     return (
-        <Table>
-            <thead>
-                <tr>
-                    <th>Role</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {crewList}
-            </tbody>
-        </Table>
+        <div className='shootday-crewlist-table-container'>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {crewList}
+                </tbody>
+            </Table>
+        </div>
     )
 }

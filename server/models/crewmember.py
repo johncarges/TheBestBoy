@@ -16,6 +16,12 @@ class Crewmember(db.Model):
     workdays = db.relationship('Workday', backref='crewmember', cascade='all, delete-orphan')
     shootdays = association_proxy('workdays', 'shootday')
 
+    def productions(self):
+        return list(set([sd.production for sd in self.shootdays]))
+    
+    def roles(self):
+        return list(set([wd.role for wd in self.workdays]))
+
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
@@ -26,6 +32,8 @@ class Crewmember(db.Model):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'phone': self.phone,
-            'email': self.email
+            'email': self.email,
+            'productions': [prod.name for prod in self.productions()],
+            'roles': self.roles()
         }
     

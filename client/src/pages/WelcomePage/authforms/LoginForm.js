@@ -1,10 +1,11 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../../context/user"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 export default function LoginForm(){
     
     const {changeUser} = useContext(UserContext)
-
+    const history = useHistory()
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -29,6 +30,7 @@ export default function LoginForm(){
         }).then(r=> {
             if (r.ok) {
                 r.json().then(changeUser)
+                history.push('/home')
             } else {
                 r.json().then(data=>{setErrorMessage(data['error'])})
             }

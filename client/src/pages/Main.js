@@ -13,22 +13,22 @@ export default function Main() {
             <NavBar/>
             <div className='main-body'>
                 <Switch>
-                    <Route exact path='/'>
+                    <Route exact path='/home'>
                         <CalendarPage/>
                     </Route>
-                    <Route exact path='/productions'>
+                    <Route exact path='/home/productions'>
                         <ProductionsPage/>
                     </Route>
-                    <Route exact path='/productions/:id'>
+                    <Route exact path='/home/productions/:id'>
                         <ProductionDetailPage/>
                     </Route>
-                    <Route exact path='/crewmembers'>
+                    <Route exact path='/home/crewmembers'>
                         <CrewmembersPage/>
                     </Route>
-                    <Route exact path='/crewmembers/new'>
+                    <Route exact path='/home/crewmembers/new'>
                         <AddCrewmember/>
                     </Route>
-                    <Route exact path='/shootdays/:id'>
+                    <Route exact path='/home/shootdays/:id'>
                         <ShootdayInfo/>
                     </Route>
                 </Switch>

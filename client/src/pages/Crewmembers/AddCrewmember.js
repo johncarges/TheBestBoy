@@ -28,7 +28,7 @@ export default function AddCrewmember() {
             body: JSON.stringify(formData)
         }).then(r=>{
             if (r.ok) {
-                history.push('/crewmembers')
+                history.push('/home/crewmembers')
             } else {
                 console.log(r.json())
             }
