@@ -44,6 +44,7 @@ export default function AddWorkdayModal({handleAddWorkdays}) {
     function handleSubmit(e) {
         handleAddWorkdays(roleCounts)
         handleClose()
+        setRoleCounts(initialRoleCount)
     }
 
 

@@ -47,10 +47,16 @@
   text-decoration: none;
 }
 
+.logout-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .logout-button {
   width:10rem;
-  padding: 1rem;
-  margin: 0rem;
+
+  height: 60%;
 }
 
 
@@ -58,6 +64,53 @@
   padding: 1rem;
   margin: 1rem;
 }
+
+/* PRODUCTIONS PAGE */
+.productions-list-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.productions-list {
+  list-style: none;
+}
+
+.production-tile-container {
+  border:#9aa3b5 solid 1px;
+  border-radius:5px;
+  margin: 0.5rem 0rem;
+  padding: 0.5rem;
+}
+
+/* .production-tile-title {
+
+} */
+
+.production-detail-page-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.production-detail-page-info {
+  width: 30%
+}
+
+.production-detail-page-calendar {
+  padding-top: 2rem;
+  width: 60%;
+}
+
+/* SHOOTDAY PAGES */
+.shootday-date-and-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+/* .shootday-crewlist-table-container {
+  
+} */
+
 
 /* CREWMEMBERS PAGE */
 .crew-list-page-container {
@@ -110,6 +163,7 @@
   margin: 0
 }
 
+/* Calendar Views */
 .daygrid-event {
   border:#282c34 1px solid;
   color: #fff;
@@ -151,3 +205,5 @@
 .add-position-input {
   width: 3rem;
 }
+
+

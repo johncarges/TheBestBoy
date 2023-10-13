@@ -11,6 +11,7 @@ class Production(db.Model):
     best_boy_id = db.Column(db.Integer, db.ForeignKey('best_boys.id'))
 
     shootdays = db.relationship('Shootday',backref='production',order_by='Shootday.date',cascade='all, delete-orphan')
+    
 
     @classmethod
     def find_by_id(cls,id):

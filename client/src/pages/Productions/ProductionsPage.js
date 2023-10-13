@@ -32,10 +32,12 @@ export default function ProductionsPage() {
 
     return (
         <div>
-            <h1>Productions</h1>
-            <AddProduction
-                handleAddProduction={handleAddProduction}/>
-            <ul>
+            <div className='productions-list-header'>
+                <h1>Productions</h1>
+                <AddProduction
+                    handleAddProduction={handleAddProduction}/>
+            </div>
+            <ul className='productions-list'>
                 {renderedProductions}
             </ul>
         </div>

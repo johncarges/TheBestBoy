@@ -48,7 +48,7 @@ export default function AssignCrewButton({workday, handleUpdateWorkday}) {
     })
 
     const renderedResults = filteredCrew.map(cm => {
-        return (<li key={cm.id} onClick={(e)=>onSelect(cm)}>{cm.first_name} {cm.last_name}</li>)
+        return (<li key={cm.id} className='clickable' onClick={(e)=>onSelect(cm)}>{cm.first_name} {cm.last_name}</li>)
     })
 
     return (

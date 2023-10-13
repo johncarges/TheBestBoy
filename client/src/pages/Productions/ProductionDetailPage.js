@@ -3,6 +3,8 @@ import {useHistory} from 'react-router-dom'
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import CalendarComponent from "../../components/calendars/CalendarComponent";
 
+import formatDate from '../../utils/FormatDate'
+import formatDateForPost from "../../utils/FormatDateForPost";
 
 export default function ProductionDetailPage() {
 
@@ -17,10 +19,19 @@ export default function ProductionDetailPage() {
         shootdays: []
     })
 
+    const [addingDates, setAddingDates] = useState(false)
+    const [datesToAdd, setDatesToAdd] = useState([])
+
+
     useEffect(()=> {
         fetch(`/productions/${id}`)
-        .then(r=> r.json())
-        .then(setProductionInfo)
+        .then(r=> {
+            if (r.ok) {
+                r.json().then(setProductionInfo)
+            } else {
+                history.push()
+            }
+        })
     },[])
 
     let schedule;
@@ -37,15 +48,66 @@ export default function ProductionDetailPage() {
         )
     }
 
+    function handleStartAdding() {
+        setAddingDates(true)
+    }
+
+    function handleClickDate(date) {
+        if (datesToAdd.includes(date)) {
+            setDatesToAdd(datesToAdd.filter(d=>d!==date))
+        } else {
+            setDatesToAdd([
+                ...datesToAdd,
+                date
+            ])
+        }
+    }
+
+    function submitDates() {
+        
+        const postBody = {
+            'production_id': productionInfo.id,
+            'dates':datesToAdd.map(dateInfo=>formatDateForPost(String(dateInfo.date)))
+        }
+        const postConfig = {
+            method: "POST",
+            headers: {"content-type":'application/json','accepts':'application/json'},
+            body: JSON.stringify(postBody)
+        }
+
+        fetch('/shootdays_bulk',postConfig)
+        .then(r=>r.json())
+        .then(data => {
+            const newShootdayList = productionInfo.shootdays.concat(data)
+            newShootdayList.sort((day1,day2)=>day1.date.localeCompare(day2.date))
+            setProductionInfo({
+                ...productionInfo,
+                shootdays: newShootdayList
+            })
+            setAddingDates(false)
+            setDatesToAdd([])
+        })
+    }
+
     return (
-        <div>
-            <button onClick={history.goBack}>Back</button>
-            <h1>{productionInfo.name}</h1>
-            <ul>
-                {schedule}
-            </ul>
-            <CalendarComponent 
-            shootdays={productionInfo.shootdays}/>
+        <div className='production-detail-page-container'>
+            <div>
+                <div className='production-detail-page-info'>
+                    <button onClick={history.goBack}>Back</button>
+                    <h1>{productionInfo.name}</h1>
+                </div>
+                {addingDates
+                    ? <button onClick={submitDates}>Submit</button>
+                    : <button onClick={handleStartAdding}>Add Dates</button>
+                    }
+            </div>
+            <div className='production-detail-page-calendar'>
+                <CalendarComponent 
+                shootdays={productionInfo.shootdays}
+                addingDates={addingDates}
+                datesToAdd={datesToAdd}
+                handleClickDate={handleClickDate}/>
+            </div>
         </div>
     )
 

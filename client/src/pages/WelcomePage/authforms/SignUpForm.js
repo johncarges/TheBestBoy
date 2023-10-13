@@ -42,7 +42,8 @@ export default function SignUpForm(){
     return (
         <div>
             <h1>Signup</h1>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}
+            autocomplete='off'>
                 <label>First Name</label>
                 <input 
                     name='first_name'
@@ -65,14 +66,16 @@ export default function SignUpForm(){
                 <input 
                     name='username'
                     value={formData.username}
-                    onChange={onChange}    
+                    onChange={onChange}
+                    autocomplete='off'    
                 />
                 <label>Password</label>
                 <input 
                     name='password'
                     type='password'
                     value={formData.password}
-                    onChange={onChange}    
+                    onChange={onChange}
+                    autocomplete='off'    
                 />
                 <button type='submit'>Submit</button>
             </form>
