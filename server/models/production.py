@@ -9,9 +9,18 @@ class Production(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     best_boy_id = db.Column(db.Integer, db.ForeignKey('best_boys.id'))
+    created_at  = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     shootdays = db.relationship('Shootday',backref='production',order_by='Shootday.date',cascade='all, delete-orphan')
+    # core_crew = db.relationship('Production',
+    #                             secondary = core_role,
+    #                             primaryjoin = (core_role.c.production_id== id),
+    #                             secondaryjoin = (core_role.c.crewmember_id==id),
+    #                             backref='core_productions')
     
+    core_roles = db.relationship('CoreRole', backref='production')
+    core_crewmembers = association_proxy('core_roles','crewmember')
 
     @classmethod
     def find_by_id(cls,id):
@@ -28,10 +37,11 @@ class Production(db.Model):
             'end_date': self.end_date().isoformat() if self.shootdays else None
         }
     
-    def to_dict_with_days(self):
+    def to_dict_with_days_and_core(self):
         return {
             **self.to_dict(),
-            'shootdays': [shootday.to_dict() for shootday in self.shootdays] if self.shootdays else []
+            'shootdays': [shootday.to_dict() for shootday in self.shootdays] if self.shootdays else [],
+            'core_roles': [role.to_dict() for role in self.core_roles]
         }
     
     def days_scheduled(self):

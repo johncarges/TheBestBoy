@@ -14,6 +14,8 @@ class Shootday(db.Model):
     date = db.Column(db.DateTime)
     location = db.Column(db.String)
     notes = db.Column(db.String)        # Make this its own class
+    created_at  = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     
     workdays = db.relationship('Workday', backref='shootday', cascade='all, delete-orphan')
     crewmembers = association_proxy('workdays','crewmember')

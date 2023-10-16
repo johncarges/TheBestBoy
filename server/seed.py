@@ -8,7 +8,7 @@ from faker import Faker
 from datetime import timedelta, datetime as d
 # Local imports
 from app import app, db
-from models import BestBoy, Crewmember, Production, Shootday, Workday
+from models import BestBoy, Crewmember, Production, Shootday, Workday,CoreRole
 
 # from models import db
 
@@ -35,6 +35,7 @@ if __name__ == '__main__':
         Shootday.query.delete()
         Crewmember.query.delete()
         Workday.query.delete()
+        CoreRole.query.delete()
         
         print("Adding user John Carges...")
         new_bb= BestBoy(first_name="John", last_name="Carges",username="johncarges",email="johncarges@gmail.com")
