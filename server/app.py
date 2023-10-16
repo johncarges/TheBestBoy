@@ -154,8 +154,16 @@ class ShootdaysBulk(Resource):
                 production_id=rq.get('production_id'),
                 date=datetime(int(year), int(month), int(day)),
             )
-            db.session.add(new_shootday)
+            db.session.add(new_shootday)    
             db.session.commit()
+            for position in prod.core_roles:
+                new_wd = Workday(
+                    shootday_id = new_shootday.id,
+                    role=position.role,
+                    crewmember_id=position.crewmember_id
+                )
+                db.session.add(new_wd)
+                db.session.commit()
             response.append(new_shootday.to_dict())
         return response, 201
 
@@ -332,7 +340,6 @@ class ProductionCoreRoles(Resource):
             return {'error':'401 Unauthorized'}, 401
             
         return [cr.to_dict() for cr in production.core_roles], 200
-       
     
     def post(self, production_id):
         if not (best_boy_id:=session.get('best_boy_id')):
@@ -361,6 +368,36 @@ class ProductionCoreRoles(Resource):
         
         except:
             return {'error': 'Database constraints Failed'}, 422
+    
+    def patch(self,production_id):
+        """Removes ALL core roles and re-assigns"""
+        if not (best_boy_id:=session.get('best_boy_id')):
+            return {'error':'401 Unauthorized'}, 401
+        if not (production:=Production.find_by_id(production_id)):
+            return {'error':'404 Production Not Found'}, 404
+        if production.best_boy_id != best_boy_id:
+            return {'error':'401 Unauthorized'}, 401
+        
+        try:
+            CoreRole.query.filter_by(production_id=production.id).delete()
+            db.session.commit()
+            rq=request.get_json()
+            response = []
+            for core_role in rq:
+                new_cr = CoreRole(
+                    production_id=production.id,
+                    crewmember_id=core_role['crewmember']['id'] if core_role['crewmember'] else None,
+                    role=core_role['role'])
+
+                db.session.add(new_cr)
+                db.session.commit()
+                response.append(new_cr.to_dict())
+            return response, 201
+        except ValueError:
+            return {'error':'422 Validation Error'}, 422
+        except Exception as ex:
+            return {'error': f'{type(ex)} {ex}'}, 400
+        
 
 api.add_resource(ProductionCoreRoles,'/production_core_roles/<int:production_id>')
 # int id: production id!

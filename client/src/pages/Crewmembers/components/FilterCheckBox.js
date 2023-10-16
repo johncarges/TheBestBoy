@@ -19,9 +19,10 @@ export default function FilterCheckBox(props){
         }
     }
 
-    const options = checkList.map((option)=> {
+    const options = checkList.map((option,index)=> {
         
         return( <Form.Check
+            key={index}
             label={option}
             name={option}
             id={option}
