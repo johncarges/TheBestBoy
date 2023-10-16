@@ -22,7 +22,9 @@ EARLIESTDAY= d.now() - timedelta(days=30)
 LATESTDAY = d.now() + timedelta(days=60)
 
 ROLES = ['Gaffer', 'Best Boy', 'Generator Operator','Lamp Operator','Dimmer Board Operator']
-
+MOVIE_TITLES = ['Soldier Of Our Culture', 'Creature Of Everywhere','Friend Of Life', 'Pilot Of Eternity','Creatures From The Portal','Volunteers Of Space','Rebels Of Space',
+"Creatures Of Earth's Legacy","Traitors And Officers","Armies And Officers","Mercenaries And Aliens","Martians And Guardians","Statue Of The Ocean","Edge Of Honor",
+"Demise Of New Earth","Reincarnation Of Earth's Legacy","Alive In A Nuclear War","Frozen By The Eyes","Broken Outer Space","Haunted By Technology","The Immortals", "Married To The Ocean"]
 
 if __name__ == '__main__':
     fake = Faker()
@@ -59,7 +61,7 @@ if __name__ == '__main__':
 
         print('Adding Productions...')
         for _ in range(NUMPRODUCTIONS):
-            name = fake.company()
+            name = MOVIE_TITLES.pop()
             new_prod = Production(name=name, best_boy_id=randint(1,NUMBESTBOYS))
             db.session.add(new_prod)
         db.session.commit()
