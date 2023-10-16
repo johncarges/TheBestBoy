@@ -4,4 +4,4 @@ from .production import Production
 from .shootday import Shootday
 from .workday import Workday
 
-print('hi')
+from .core_role import CoreRole

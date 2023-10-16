@@ -15,7 +15,7 @@ export default function CrewTableRow({workday, handleUpdateWorkday}) {
         if (workday.crewmember) {
             return (
                 <div>
-                    <p onClick={handleShowInfo}>{`${workday.crewmember.first_name} ${workday.crewmember.last_name}`}</p>
+                    <p className='clickable' onClick={handleShowInfo}>{`${workday.crewmember.first_name} ${workday.crewmember.last_name}`}</p>
                     <CrewInfoModal
                         showInfo={showInfo}
                         handleClose={handleClose}

@@ -5,6 +5,7 @@ import CalendarComponent from "../../components/calendars/CalendarComponent";
 
 import formatDate from '../../utils/FormatDate'
 import formatDateForPost from "../../utils/FormatDateForPost";
+import CoreCrewList from "./components/CoreCrewList";
 
 export default function ProductionDetailPage() {
 
@@ -16,7 +17,8 @@ export default function ProductionDetailPage() {
         name: '',
         start_date: '',
         end_date: '',
-        shootdays: []
+        shootdays: [],
+        core_roles: []
     })
 
     const [addingDates, setAddingDates] = useState(false)
@@ -102,6 +104,7 @@ export default function ProductionDetailPage() {
                     ? <button onClick={submitDates}>Submit</button>
                     : <button onClick={handleStartAdding}>Add Dates</button>
                     }
+                <CoreCrewList coreRoleList={productionInfo.core_roles}/>
             </div>
             <div className='production-detail-page-calendar'>
                 <CalendarComponent 

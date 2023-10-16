@@ -12,7 +12,7 @@ from datetime import datetime
 from config import app, db, api
 # Add your model imports
 
-from models import BestBoy, Crewmember, Production, Shootday, Workday
+from models import BestBoy, Crewmember, Production, Shootday, Workday, CoreRole
 
 # Views go here!
 
@@ -71,7 +71,7 @@ class ProductionsByID(Resource):
             return {'error': '404 not found'}, 404
         
         if prod.best_boy_id == session.get('best_boy_id'):
-            return prod.to_dict_with_days(), 200
+            return prod.to_dict_with_days_and_core(), 200
         return {'error': '401 Unauthorized'}, 401
 
     def patch(self,id):
@@ -245,7 +245,6 @@ api.add_resource(Workdays, '/workdays')
 
 class WorkdaysByID(Resource):
     def patch(self, id):
-        print('trying?')
         if not (wd := Workday.find_by_id(id)):
             return {'error': '404 not found'}, 404
         
@@ -321,6 +320,69 @@ class CrewmembersByID(Resource):
         pass
 
 api.add_resource(CrewmembersByID, '/crewmembers/<int:id>')
+
+class ProductionCoreRoles(Resource):
+    """CRUD actions for core roles of SPECIFIC USER AND PRODUCTION"""
+    def get(self,production_id):
+        if not (best_boy_id:=session.get('best_boy_id')):
+            return {'error':'401 Unauthorized'}, 401
+        if not (production:=Production.find_by_id(production_id)):
+            return {'error':'404 Production Not Found'}, 404
+        if production.best_boy_id != best_boy_id:
+            return {'error':'401 Unauthorized'}, 401
+            
+        return [cr.to_dict() for cr in production.core_roles], 200
+       
+    
+    def post(self, production_id):
+        if not (best_boy_id:=session.get('best_boy_id')):
+            return {'error':'401 Unauthorized'}, 401
+        if not (production:=Production.find_by_id(production_id)):
+            return {'error':'404 Production Not Found'}, 404
+        if production.best_boy_id != best_boy_id:
+            return {'error':'401 Unauthorized'}, 401
+        
+        try:
+            rq=request.get_json()
+            response = []
+            for core_role in rq:
+                new_cr = CoreRole(
+                    production_id=production.id,
+                    crewmember_id=core_role['crewmember_id'],
+                    role=core_role['role'])
+
+                db.session.add(new_cr)
+                db.session.commit()
+                response.append(new_cr.to_dict())
+            return response, 201
+
+        except ValueError:
+            return {'error':'422 Validation Error'}, 422
+        
+        except:
+            return {'error': 'Database constraints Failed'}, 422
+
+api.add_resource(ProductionCoreRoles,'/production_core_roles/<int:production_id>')
+# int id: production id!
+
+class CoreRolesByID(Resource):
+    def patch(self, id):
+        if not (cr:=CoreRole.find_by_id(id)):
+            return {'error':'404 Core Role not found'}, 404
+        rq = request.get_json()
+        try:
+            for attr in rq:
+                setattr(cr, attr, rq[attr])
+            db.session.add(cr)
+            db.session.commit()
+            return cr.to_dict(), 200
+        except:
+            return {'error':'422 Validation Errors'}, 422
+
+    def delete(self):
+        pass
+
+api.add_resource(CoreRolesByID, '/core_roles/<int:id>')
 
 ################
 

@@ -12,9 +12,13 @@ class Crewmember(db.Model):
     last_name = db.Column(db.String)
     email = db.Column(db.String)
     phone = db.Column(db.String)
+    created_at  = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     workdays = db.relationship('Workday', backref='crewmember', cascade='all, delete-orphan')
     shootdays = association_proxy('workdays', 'shootday')
+
+    core_roles = db.relationship('CoreRole', backref='crewmember')
 
     def productions(self):
         return list(set([sd.production for sd in self.shootdays]))
@@ -35,5 +39,14 @@ class Crewmember(db.Model):
             'email': self.email,
             'productions': [prod.name for prod in self.productions()],
             'roles': self.roles()
+        }
+    
+    def to_dict_basic(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'phone': self.phone,
+            'email': self.email
         }
     
