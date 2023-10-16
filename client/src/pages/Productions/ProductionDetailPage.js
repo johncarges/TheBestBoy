@@ -53,13 +53,15 @@ export default function ProductionDetailPage() {
     }
 
     function handleClickDate(date) {
-        if (datesToAdd.includes(date)) {
-            setDatesToAdd(datesToAdd.filter(d=>d!==date))
-        } else {
-            setDatesToAdd([
-                ...datesToAdd,
-                date
-            ])
+        if (addingDates) {
+            if (datesToAdd.includes(date)) {
+                setDatesToAdd(datesToAdd.filter(d=>d!==date))
+            } else {
+                setDatesToAdd([
+                    ...datesToAdd,
+                    date
+                ])
+            }
         }
     }
 
