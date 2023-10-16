@@ -93,6 +93,15 @@ export default function ProductionDetailPage() {
         })
     }
 
+    const changeProductionInfo = (newInfo) => setProductionInfo(newInfo)
+
+    function updateCoreCrew (newCore) {
+        changeProductionInfo({
+            ...productionInfo,
+            core_roles: newCore
+        })
+    }
+
     return (
         <div className='production-detail-page-container'>
             <div>
@@ -104,7 +113,10 @@ export default function ProductionDetailPage() {
                     ? <button onClick={submitDates}>Submit</button>
                     : <button onClick={handleStartAdding}>Add Dates</button>
                     }
-                <CoreCrewList coreRoleList={productionInfo.core_roles}/>
+                <CoreCrewList 
+                coreRoleList={productionInfo.core_roles} 
+                updateCoreCrew={updateCoreCrew}
+                productionID={productionInfo.id}/>
             </div>
             <div className='production-detail-page-calendar'>
                 <CalendarComponent 

@@ -83,6 +83,25 @@
   padding: 0.5rem;
 }
 
+.core-crew-list-container {
+  padding-top: 3rem
+}
+
+.role-list-container {
+  position:absolute;
+  max-height: 150px;
+  background:#adb5c3;
+  border:#282c34 solid 1px;
+  border-radius: 3px;
+  overflow: auto;
+  z-index: 1;
+  list-style-type: none
+}
+.role-list {
+  list-style-type: none;
+  margin: .5rem;
+  padding: 0rem
+}
 /* .production-tile-title {
 
 } */
@@ -207,3 +226,18 @@
 }
 
 
+/* Components */
+
+/* Search Crew dropdown */
+.crew-list-search-dropdown {
+  position: relative;
+}
+
+.crew-list-search-list {
+  position:absolute;
+  max-height: 150px;
+  background:#adb5c3;
+  overflow: auto;
+  z-index: 1;
+  list-style-type: none
+}
