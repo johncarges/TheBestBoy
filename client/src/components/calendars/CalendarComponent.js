@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 export default function CalendarComponent(props) {
 
-    const [selectedDates, setSelectedDates] = useState([])
+    // const [selectedDates, setSelectedDates] = useState([])
     const {shootdays,addingDates,datesToAdd, handleClickDate} = props
 
     const history = useHistory()
@@ -32,13 +32,17 @@ export default function CalendarComponent(props) {
 
 
 
-    const events = shootdays.map((shootday)=> {
+    const shootdayEvents = shootdays.map((shootday)=> {
         return {'id': shootday.id, 
             'title': shootday.production.name, 
             'description':`To hire: ${shootday.to_hire}`, 
             'date': shootday.date}
     })
+    const backgroundEvents = datesToAdd.map((date)=>{
+        return {'start':date.dateStr, 'end':date.dateStr, 'display':'background', overlap:false}
+    })
 
+    const events = [...shootdayEvents, ...backgroundEvents]
 
 
     return (
@@ -46,7 +50,7 @@ export default function CalendarComponent(props) {
         selectable={addingDates}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridMonth'
-        events={events}
+        events={events} //
         dateClick={handleClickDate}
         eventContent={renderEventContent}
         eventClick={handleShootdayClick}

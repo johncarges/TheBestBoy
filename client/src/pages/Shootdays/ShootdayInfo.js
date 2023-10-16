@@ -69,7 +69,6 @@ export default function ShootdayInfo(props) {
 
     const previousShootdayButton = previousShootdayID(id) 
         ? <p onClick={()=>{
-            console.log(previousShootdayID(id))
             history.push({
                 pathname:`/home/shootdays/${previousShootdayID(id)}`,
                 state: shootdays
@@ -87,7 +86,6 @@ export default function ShootdayInfo(props) {
                 workdaysToAdd.push(key)
             }
         }
-        console.log(workdaysToAdd)
         fetch('/workdays',{
             method: "POST",
             headers: {'accepts':'application/json','content-type':'application/json'},
@@ -98,7 +96,6 @@ export default function ShootdayInfo(props) {
         }).then(r=> {
             if (r.ok) {
                 r.json().then(data => {
-                    console.log(data)
                     setShootdayInfo({
                         ...shootdayInfo,
                         workdays: [
