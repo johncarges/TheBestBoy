@@ -6,6 +6,7 @@
   --main-bg-color: #f0f0f0;
   --gold-detail: #eeb224;
   --navbar-green:  #558f5d;
+  --standard-border: #9aa3b5 1px solid;
 }
 
 .clickable:hover {
@@ -49,14 +50,20 @@
 
 .logout-button-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .logout-button {
   width:10rem;
-
   height: 60%;
+  margin: 0rem 1rem;
+  width: 100px;
+}
+
+.nav-username {
+  font-style: italic;
 }
 
 
@@ -77,8 +84,8 @@
 }
 
 .production-tile-container {
-  border:#9aa3b5 solid 1px;
-  border-radius:5px;
+  border: var(--standard-border);
+  border-radius:10px;
   margin: 0.5rem 0rem;
   padding: 0.5rem;
 }
@@ -105,6 +112,22 @@
   list-style-type: none;
   margin: .5rem;
   padding: 0rem
+}
+
+.core-crew-outer-list {
+  list-style: none;
+  padding-left:0rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.specific-role-name {
+  margin:0.5rem 0rem;
+}
+
+.specific-role-list {
+  list-style-type:none;
+
 }
 
 .add-core-crew-row {
@@ -188,7 +211,10 @@
 
 .crew-filter-container {
   padding:1rem;
+  margin-top:3rem;
   width: 30%;
+  border: var(--standard-border);
+  border-radius:10px;
 }
 
 .crew-list-side {
@@ -200,7 +226,7 @@
   max-height: 600px;
   overflow: auto;
   margin-top:1rem;
-  border:#9aa3b5 solid 1px;
+  border: var(--standard-border);
   border-top-left-radius: 2%;
 }
 
@@ -248,6 +274,8 @@
 
 .fc-event > div {
   overflow: hidden;
+  font-size: 12px;
+  margin-right: .5rem;
 }
 .fc-event > div >p {
   margin: 0rem;
@@ -293,4 +321,10 @@
   overflow: auto;
   z-index: 1;
   list-style-type: none
+}
+
+.error-message {
+  color:#f33;
+  font-size: 12px;
+  height: .5rem;
 }

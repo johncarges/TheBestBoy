@@ -4,9 +4,11 @@ import { UserContext } from '../../context/user'
 
 import Button from 'react-bootstrap/Button'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+
+
 export default function NavBar() {
     
-    const {changeUser} = useContext(UserContext)
+    const {user, changeUser} = useContext(UserContext)
     const history = useHistory()
 
     function handleLogout(e) {
@@ -44,6 +46,7 @@ export default function NavBar() {
                 </NavLink>  
             </div>
             <div className='logout-button-container'>
+                <h5 className='nav-username'>{user.username}</h5>
                 <Button variant="secondary" onClick={handleLogout}
                 className='logout-button'>Log Out</Button>
             </div>

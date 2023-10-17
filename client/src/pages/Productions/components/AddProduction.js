@@ -6,36 +6,48 @@ import Modal from 'react-bootstrap/Modal'
 export default function AddProduction({handleAddProduction}){
     const [show, setShow] = useState(false)
     const [newProductionName, setNewProductionName] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
 
-    const handleClose = () => setShow(false)
+    const handleClose = () => {
+        setShow(false)
+        setErrorMessage('')}
+
     const handleShow = () => setShow(true)
 
     const onChange = (e) => {
+        if (errorMessage !== ''){
+            setErrorMessage('')
+        }
         setNewProductionName(e.target.value)
     }
 
     function onSubmit(e) {
         e.preventDefault()
-        // Don't accept empty name?
-        fetch('/productions',{
-            method:"POST",
-            headers:{'accepts':'application/json','content-type':'application/json'},
-            body: JSON.stringify({'name':newProductionName})
-        }).then(r=> {
-            if (r.ok) {
-                handleClose()
-                r.json().then(handleAddProduction)
-            } else {
-                r.json().then(console.log)
-            }
-        })
+        if (newProductionName===''){
+            setErrorMessage('Name is required')
+        } else {
+            fetch('/productions',{
+                method:"POST",
+                headers:{'accepts':'application/json','content-type':'application/json'},
+                body: JSON.stringify({'name':newProductionName})
+            }).then(r=> {
+                if (r.ok) {
+                    handleClose()
+                    r.json().then(handleAddProduction)
+                } else {
+                    r.json().then(console.log)
+                }
+            })
+        }
     }
+
+    const errorBlock = errorMessage ===''? <p className='error-message'> </p>:<p className='error-message'>{errorMessage}</p>
 
     return (
         <div>
-            <button onClick={handleShow}>
+            <Button onClick={handleShow}>
                 Add Production
-            </button>
+            </Button>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Production</Modal.Title>
@@ -47,6 +59,7 @@ export default function AddProduction({handleAddProduction}){
                             onChange={onChange}
                             placeholder='Production Name'/>
                     </form>
+                    {errorBlock}
                 </Modal.Body>
                 <Modal.Footer>
                     <button onClick={onSubmit}>

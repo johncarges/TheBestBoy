@@ -1,37 +1,41 @@
-import Table from "react-bootstrap/Table"
-
 import EditCoreCrewModal from "./EditCoreCrewModal"
-import sortDepartment from "../../../utils/SortDepartment"
+import CrewNameWithModal from "../../../components/crew/CrewNameWithModal"
 
 
 export default function CoreCrewList({coreRoleList, updateCoreCrew,productionID}) {
 
 
-    const renderedCoreList = sortDepartment(coreRoleList).map(coreRole=> {
-        const info = coreRole.crewmember
-            ? `${coreRole.crewmember.first_name} ${coreRole.crewmember.last_name}`
-            : 'Unassigned'
-       
-        return (
-            <tr key={coreRole.id}>
-                <td>
-                    {coreRole.role}
-                </td>                        
-                <td>{info}</td>
-            </tr>
-        )
-            
-    })
+    const roles = ['Gaffer','Best Boy','Generator Operator','Lamp Operator','Dimmer Board Operator']
 
+
+    function renderedRoleList(role) {
+        return coreRoleList.filter(position =>(position.role===role)).map(position=>{
+            return position.crewmember
+            ? <li><CrewNameWithModal crewmember={position.crewmember}/></li>
+            : <li>Unassigned</li>
+        })
+    }
+
+
+    const renderedCoreList2 = roles.map(role => {
+        if (coreRoleList.filter(position =>(position.role===role)).length >0) {
+            return (
+                <li className='core-list-role'>
+                    <p className='specific-role-name'>{role}</p>
+                    <ul className='specific-role-list'>
+                        {renderedRoleList(role)}
+                    </ul>
+                </li>
+            )
+        }
+    })
 
     return (
         <div className='core-crew-list-container'>
             <h3>Core Crew:</h3>
-            <Table className='table-borderless'>
-                <tbody>
-                    {renderedCoreList}
-                </tbody>
-            </Table>
+            <ul className='core-crew-outer-list'>
+                {renderedCoreList2}
+            </ul>
             <EditCoreCrewModal 
             coreRoleList={coreRoleList} 
             updateCoreCrew={updateCoreCrew}
