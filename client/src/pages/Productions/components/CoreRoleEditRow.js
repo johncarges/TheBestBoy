@@ -27,7 +27,7 @@ export default function CoreRoleEditRow(props) {
             <td className='add-core-crew-position'>{role.role}</td>
             <td className='add-core-crew-name'>{info}</td>
             <td><i className="fas fa-pen clickable" onClick={handleEdit}></i></td>
-            <td><i className="fa-regular fa-trash-can clickable" onClick={()=>handleDelete(role.id)}></i></td>
+            <td><i className="fa-regular fa-trash-can clickable" onClick={()=>handleDelete(index)}></i></td>
         </tr>
     )
 }

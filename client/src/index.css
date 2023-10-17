@@ -95,7 +95,10 @@
 }
 
 .core-crew-list-container {
-  padding-top: 3rem
+  border: var(--standard-border);
+  border-radius: 10px;
+  margin: 2rem 0rem;
+  padding: .5rem;
 }
 
 .role-list-container {
@@ -159,21 +162,24 @@
 }
 
 .production-detail-page-left {
-  width: 30%
+  width: 20%
 }
 
-/* .production-detail-page-info {
-  width: 30%
-} */
+.production-detail-page-info {
+  border: var(--standard-border);
+  border-radius: 10px;
+  margin: 4rem 0rem 2rem 0rem;
+  padding: .5rem;
+}
 
 .production-detail-page-title {
-  padding:2rem 0rem;
+  padding-bottom:2rem;
 }
 
 
 .production-detail-page-calendar {
   padding-top: 2rem;
-  width: 60%;
+  width: 75%;
 }
 
 /* SHOOTDAY PAGES */
@@ -253,7 +259,7 @@
 /* Calendar Views */
 .daygrid-event {
   border:#282c34 1px solid;
-  color: #fff;
+  color:#282c34;
 }
 
 .daygrid-event:hover {
@@ -327,4 +333,19 @@
   color:#f33;
   font-size: 12px;
   height: .5rem;
+}
+
+.note-box {
+  width: 100%;
+
+}
+
+.notes-editing-button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content:right;
+}
+
+.notes-editing-button-row > i{
+  margin-left:0.5rem;
 }

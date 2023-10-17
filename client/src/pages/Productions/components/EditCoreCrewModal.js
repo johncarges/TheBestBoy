@@ -58,11 +58,9 @@ export default function EditCoreCrewModal(props) {
         ]))
     }
 
-    function handleDeleteRole(id) {
-        console.log(id)
-        console.log('hi!')
-        setDisplayedRoleList(displayedRoleList.filter(role=>{
-            return role.id !== id
+    function handleDeleteRole(index) {
+        setDisplayedRoleList(displayedRoleList.filter((_,i)=>{
+            return i !== index
         }))
     }
 
@@ -79,10 +77,17 @@ export default function EditCoreCrewModal(props) {
         }))
     }
 
+    const assignedContactIDs = displayedRoleList.filter(role=>role.crewmember).map(role=>role.crewmember.id)
+
+    const availableContacts = contacts.filter(contact=> {
+        
+        return !assignedContactIDs.includes(contact.id)
+    })
+
     const renderedCoreList = displayedRoleList.map((role,index)=>{
         return <CoreRoleEditRow 
             key={index}
-            contacts={contacts} 
+            contacts={availableContacts} 
             role={role}
             onClick={updateDisplayedCrewmember}
             index={index}

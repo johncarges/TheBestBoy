@@ -7,7 +7,8 @@ class Production(db.Model):
     __tablename__ = 'productions'
     
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String, nullable=False)
+    notes = db.Column(db.String)
     best_boy_id = db.Column(db.Integer, db.ForeignKey('best_boys.id'))
     created_at  = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
@@ -33,6 +34,7 @@ class Production(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'notes': self.notes,
             'start_date': self.start_date().isoformat() if self.shootdays else None,
             'end_date': self.end_date().isoformat() if self.shootdays else None
         }
