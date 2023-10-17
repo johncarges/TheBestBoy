@@ -15,6 +15,7 @@ export default function CalendarComponent(props) {
 
 
     function renderEventContent(eventInfo) {
+        // console.log(eventInfo.event)
         return (
             <div>
                 <p>{eventInfo.event.title}</p>
@@ -34,7 +35,7 @@ export default function CalendarComponent(props) {
 
     const shootdayEvents = shootdays.map((shootday)=> {
         return {'id': shootday.id, 
-            'title': shootday.production.name, 
+            'title': shootday.location || shootday.production.name, 
             'description':`To hire: ${shootday.to_hire}`, 
             'date': shootday.date}
     })

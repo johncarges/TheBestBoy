@@ -50,14 +50,17 @@ export default function ShootdayInfo(props) {
     }
 
     const nextShootdayButton = nextShootdayID(id) 
-        ? <p onClick={()=>{history.push({
+        ? <i 
+            className="fa-solid fa-arrow-right clickable"
+            onClick={()=>{history.push({
             pathname:`/home/shootdays/${nextShootdayID(id)}`,
             state: shootdays
             })
             toggle()
-            }}>&gt;</p>
-        : null
+            }}></i>
+        : <i className="fa-solid fa-arrow-right" style={{opacity:0.5}}></i>
 
+        // <i class="fa-solid fa-arrow-right"></i>
     function previousShootdayID(currentID) {
         const index = shootdayIDs.indexOf(parseInt(currentID))
         if (index === 0) {
@@ -68,14 +71,15 @@ export default function ShootdayInfo(props) {
     }
 
     const previousShootdayButton = previousShootdayID(id) 
-        ? <p onClick={()=>{
+        ? <i className='fa-solid fa-arrow-left clickable' 
+            onClick={()=>{
             history.push({
                 pathname:`/home/shootdays/${previousShootdayID(id)}`,
                 state: shootdays
             })
             toggle()
-            }}>&lt;</p>
-        : null
+            }}></i>
+        : <i className="fa-solid fa-arrow-left" style={{opacity:0.5}}></i>
 
     function handleAddWorkdays (workdaysObject) {
         // from workdaysObject = {Gaffer: 1, Best Boy: 2... etc}
@@ -131,10 +135,10 @@ export default function ShootdayInfo(props) {
                     <h2>{shootdayInfo.production.name}</h2>
                     <div className='shootday-date-and-buttons'>
                         {previousShootdayButton}
-                        <h2>{formatDate(shootdayInfo.date)}</h2>
+                        <h2 className='shootday-date'>{formatDate(shootdayInfo.date)}</h2>
                         {nextShootdayButton}
                     </div>
-                    <h3>Location: {shootdayInfo.location}</h3>
+                    <h3 className='shootday-page-info-location'>Location: {shootdayInfo.location}</h3>
                 </div>
                 <div className='shooday-page-info-right-side'>
 

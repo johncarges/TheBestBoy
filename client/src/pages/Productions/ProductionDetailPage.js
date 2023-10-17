@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {useHistory} from 'react-router-dom'
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import Button from "react-bootstrap/Button";
 import CalendarComponent from "../../components/calendars/CalendarComponent";
-
 import formatDate from '../../utils/FormatDate'
 import formatDateForPost from "../../utils/FormatDateForPost";
 import CoreCrewList from "./components/CoreCrewList";
+import EditableNotes from "../../components/misc/EditableNotes";
 
 export default function ProductionDetailPage() {
 
@@ -17,6 +18,7 @@ export default function ProductionDetailPage() {
         name: '',
         start_date: '',
         end_date: '',
+        notes: '',
         shootdays: [],
         core_roles: []
     })
@@ -57,6 +59,7 @@ export default function ProductionDetailPage() {
     function handleClickDate(date) {
         if (addingDates) {
             if (datesToAdd.includes(date)) {
+                console.log(date)
                 setDatesToAdd(datesToAdd.filter(d=>d!==date))
             } else {
                 setDatesToAdd([
@@ -102,17 +105,38 @@ export default function ProductionDetailPage() {
         })
     }
 
+    function updateProductionNotes(newNotes) {
+        fetch(`/productions/${productionInfo.id}`,{
+            method: "PATCH",
+            headers: {'accepts':'application/json', 'content-type':'application/json'},
+            body: JSON.stringify({notes:newNotes})
+        }).then(r=>{
+            if (r.ok) {
+                r.json().then(data=> {
+                    changeProductionInfo({
+                        ...productionInfo,
+                        notes: data['notes']
+                    })
+                })
+            }
+        })
+    }
+
     return (
         <div className='production-detail-page-container'>
-            <div>
+            <div className='production-detail-page-left'>
+                <Button onClick={history.goBack}>Back</Button>
                 <div className='production-detail-page-info'>
-                    <button onClick={history.goBack}>Back</button>
-                    <h1>{productionInfo.name}</h1>
+                    <h1 className='production-detail-page-title'>{productionInfo.name}</h1>
+                    {/* <p className='production-detail-page-notes'>{productionInfo.notes}</p> */}
+                    <EditableNotes notes={productionInfo['notes']} onSubmit={updateProductionNotes}/>
                 </div>
-                {addingDates
-                    ? <button onClick={submitDates}>Submit</button>
-                    : <button onClick={handleStartAdding}>Add Dates</button>
-                    }
+                <div className='production-detail-adding-dates-container'>
+                    {addingDates
+                        ? <button onClick={submitDates}>Submit</button>
+                        : <button onClick={handleStartAdding}>Add Dates</button>
+                        }
+                </div>
                 <CoreCrewList 
                 coreRoleList={productionInfo.core_roles} 
                 updateCoreCrew={updateCoreCrew}

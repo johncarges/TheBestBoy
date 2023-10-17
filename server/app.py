@@ -165,6 +165,7 @@ class ShootdaysBulk(Resource):
                 db.session.add(new_wd)
                 db.session.commit()
             response.append(new_shootday.to_dict())
+            
         return response, 201
 
 api.add_resource(ShootdaysBulk,'/shootdays_bulk')
@@ -416,8 +417,20 @@ class CoreRolesByID(Resource):
         except:
             return {'error':'422 Validation Errors'}, 422
 
-    def delete(self):
-        pass
+    def delete(self, id):
+        if not (bb_id:=session.get('best_boy_id')):
+            return {'error':'401 Unauthorized'}, 401
+        
+        if not (core_role:=CoreRole.find_by_id(id)):
+            return {'error':'404 Core Role Not Found'}, 404
+        
+        if not (core_role.production.best_boy_id==bb_id):
+            return {'error': '401 Unauthorized'}, 401
+        
+        db.session.delete(core_role)
+        db.session.commit()
+
+        return {}, 204
 
 api.add_resource(CoreRolesByID, '/core_roles/<int:id>')
 

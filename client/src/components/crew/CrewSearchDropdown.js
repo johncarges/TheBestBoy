@@ -24,6 +24,7 @@ export default function CrewSearchDropdown(props) {
     return (
         <div className='crew-list-search-dropdown'>
             <input
+            className='core-crew-search-input'
             value={searchTerm}
             placeholder={placeholder}
             onChange={onChange}/>

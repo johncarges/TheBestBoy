@@ -4,14 +4,19 @@ import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
 import CoreRoleEditRow from './CoreRoleEditRow'
 import AddCoreCrewModalButton from './AddCoreCrewModalButton'
+import sortDepartment from '../../../utils/SortDepartment'
 
 export default function EditCoreCrewModal(props) {
 
     const {coreRoleList, updateCoreCrew,productionID} = props
-    const [displayedRoleList, setDisplayedRoleList] = useState([...coreRoleList])
+    const [displayedRoleList, setDisplayedRoleList] = useState(sortDepartment([...coreRoleList]))
 
     
     const [contacts, setContacts] = useState([])
+    
+    const [showInfo, setShowInfo] = useState(false)
+    const handleClose = () => setShowInfo(false)
+    const handleShowInfo = () => setShowInfo(true)
 
     useEffect(()=>{
         fetch('/crewmembers')
@@ -25,21 +30,13 @@ export default function EditCoreCrewModal(props) {
 
     useEffect(()=>{
         setDisplayedRoleList([...coreRoleList])
-    },[coreRoleList])
+    },[coreRoleList,showInfo])
 
 
-    const [showInfo, setShowInfo] = useState(false)
-    const handleClose = () => setShowInfo(false)
-    const handleShowInfo = () => setShowInfo(true)
-
-    // const [adding, setAdding] = useState(false)
-    // const handleCloseAdding = () => setAdding(false)
-    // const handleShowAdding = () => setAdding(true)
 
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(displayedRoleList)
         fetch(`/production_core_roles/${productionID}`,{
             method: "PATCH",
             headers: {'accepts':'application/json','content-type':'application/json'},
@@ -55,16 +52,21 @@ export default function EditCoreCrewModal(props) {
     }
 
     function handleAddRole(role){
-        setDisplayedRoleList([
+        setDisplayedRoleList(sortDepartment([
             ...displayedRoleList,
             {crewmember: null, production:productionID, role:role}
-        ])
+        ]))
+    }
+
+    function handleDeleteRole(index) {
+        setDisplayedRoleList(displayedRoleList.filter((_,i)=>{
+            return i !== index
+        }))
     }
 
     function updateDisplayedCrewmember(newCrewmember, index) {
         setDisplayedRoleList(displayedRoleList.map((role,i)=>{
             if (i===index){
-                console.log(role)
                 return {
                     ...role,
                     crewmember: newCrewmember
@@ -75,13 +77,21 @@ export default function EditCoreCrewModal(props) {
         }))
     }
 
+    const assignedContactIDs = displayedRoleList.filter(role=>role.crewmember).map(role=>role.crewmember.id)
+
+    const availableContacts = contacts.filter(contact=> {
+        
+        return !assignedContactIDs.includes(contact.id)
+    })
+
     const renderedCoreList = displayedRoleList.map((role,index)=>{
         return <CoreRoleEditRow 
             key={index}
-            contacts={contacts} 
+            contacts={availableContacts} 
             role={role}
             onClick={updateDisplayedCrewmember}
-            index={index}/>
+            index={index}
+            handleDelete={handleDeleteRole}/>
 
     })
 
@@ -89,7 +99,7 @@ export default function EditCoreCrewModal(props) {
     return (
         <div>
             <Button onClick={handleShowInfo}>Edit Core Crew</Button>
-            <Modal show={showInfo} onHide={handleClose}>
+            <Modal className='core-crew-modal' show={showInfo} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Core Crew</Modal.Title>
                 </Modal.Header>

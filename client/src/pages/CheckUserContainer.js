@@ -21,31 +21,11 @@ export default function CheckUserContainer() {
                 history.push('/home')
             })
         } else {
-            history.push('/welcome')
+            r.json().then(history.push('/welcome'))
+            
         }
         })
     }, [])
-
-
-
-    // if (user) {
-    //     return <Main/>
-    // } else {
-    //     return <LoginSignup/>
-    // }
-
-    // return (
-    //     <Switch>
-    //         <Route exact path='/welcome'>
-    //             <LoginSignup/>
-    //         </Route>
-    //         <Route exact path='/'>
-    //             <Main/>
-    //         </Route>
-    //     </Switch>
-    // )
-
-
 
     return (
         <Switch>

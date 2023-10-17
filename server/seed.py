@@ -63,7 +63,8 @@ if __name__ == '__main__':
         print('Adding Productions...')
         for _ in range(NUMPRODUCTIONS):
             name = MOVIE_TITLES.pop()
-            new_prod = Production(name=name, best_boy_id=randint(1,NUMBESTBOYS))
+            notes = fake.paragraph()
+            new_prod = Production(name=name, best_boy_id=randint(1,NUMBESTBOYS), notes=notes)
             db.session.add(new_prod)
         db.session.commit()
 
