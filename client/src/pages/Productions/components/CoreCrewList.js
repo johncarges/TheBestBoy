@@ -1,13 +1,13 @@
 import Table from "react-bootstrap/Table"
 
 import EditCoreCrewModal from "./EditCoreCrewModal"
-
+import sortDepartment from "../../../utils/SortDepartment"
 
 
 export default function CoreCrewList({coreRoleList, updateCoreCrew,productionID}) {
 
 
-    const renderedCoreList = coreRoleList.map(coreRole=> {
+    const renderedCoreList = sortDepartment(coreRoleList).map(coreRole=> {
         const info = coreRole.crewmember
             ? `${coreRole.crewmember.first_name} ${coreRole.crewmember.last_name}`
             : 'Unassigned'

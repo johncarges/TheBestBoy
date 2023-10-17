@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {useHistory} from 'react-router-dom'
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import Button from "react-bootstrap/Button";
 import CalendarComponent from "../../components/calendars/CalendarComponent";
-
 import formatDate from '../../utils/FormatDate'
 import formatDateForPost from "../../utils/FormatDateForPost";
 import CoreCrewList from "./components/CoreCrewList";
@@ -57,6 +57,7 @@ export default function ProductionDetailPage() {
     function handleClickDate(date) {
         if (addingDates) {
             if (datesToAdd.includes(date)) {
+                console.log(date)
                 setDatesToAdd(datesToAdd.filter(d=>d!==date))
             } else {
                 setDatesToAdd([
@@ -104,10 +105,10 @@ export default function ProductionDetailPage() {
 
     return (
         <div className='production-detail-page-container'>
-            <div>
+            <div className='production-detail-page-left'>
                 <div className='production-detail-page-info'>
-                    <button onClick={history.goBack}>Back</button>
-                    <h1>{productionInfo.name}</h1>
+                    <Button onClick={history.goBack}>Back</Button>
+                    <h1 className='production-detail-page-title'>{productionInfo.name}</h1>
                 </div>
                 {addingDates
                     ? <button onClick={submitDates}>Submit</button>

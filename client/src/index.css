@@ -83,6 +83,10 @@
   padding: 0.5rem;
 }
 
+.core-crew-modal > div >div{
+  width:700px;
+}
+
 .core-crew-list-container {
   padding-top: 3rem
 }
@@ -102,6 +106,25 @@
   margin: .5rem;
   padding: 0rem
 }
+
+.add-core-crew-row {
+  height:2.5rem;
+}
+
+.add-core-crew-position {
+  width: 20rem;
+}
+
+.add-core-crew-name {
+  width: 30rem;
+}
+
+.core-crew-search-input {
+  height:70%;
+  width:90%;
+}
+
+
 /* .production-tile-title {
 
 } */
@@ -109,11 +132,21 @@
 .production-detail-page-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between
 }
 
-.production-detail-page-info {
+.production-detail-page-left {
   width: 30%
 }
+
+/* .production-detail-page-info {
+  width: 30%
+} */
+
+.production-detail-page-title {
+  padding:2rem 0rem;
+}
+
 
 .production-detail-page-calendar {
   padding-top: 2rem;
@@ -124,6 +157,15 @@
 .shootday-date-and-buttons {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.shootday-date {
+  margin: 1rem 2rem;
+}
+
+.shootday-page-info-location {
+  margin-bottom: 1rem
 }
 
 /* .shootday-crewlist-table-container {
@@ -188,6 +230,10 @@
   color: #fff;
 }
 
+.daygrid-event:hover {
+  cursor: pointer;
+}
+
 .to-hire {
   font-size: small;
 }
@@ -198,6 +244,13 @@
 
 .fc-daygrid-day-bottom {
   height: 0em;
+}
+
+.fc-event > div {
+  overflow: hidden;
+}
+.fc-event > div >p {
+  margin: 0rem;
 }
 
 .shootday-crewlist-name {

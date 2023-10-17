@@ -15,6 +15,11 @@ class CoreRole(db.Model):
     created_at  = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    @classmethod
+    def find_by_id(cls,id):
+        return cls.query.filter_by(id=id).first()
+    
+
     def to_dict(self):
         return {
             'id':self.id,

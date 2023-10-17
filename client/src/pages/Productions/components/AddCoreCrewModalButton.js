@@ -19,20 +19,21 @@ export default function AddCoreCrewModalButton(props){
     if (adding){
         return (
             <tr>
-                <td onClick={handleShowAdding} className='clickable'>Choose Role:</td>
-                <td onClick={handleCloseAdding} colSpan='2' className='role-list-search-dropdown'>
+                <td onClick={handleCloseAdding} className='clickable add-core-crew-position'>Choose Role:</td>
+                <td onClick={handleCloseAdding} className='role-list-search-dropdown add-core-crew-name'>
                     <div className='role-list-container'>
                         <ul className='role-list'>
                             {roleList}
                         </ul>
                     </div>
                 </td>
+                <td onClick={handleCloseAdding} className='clickable'>x</td>
             </tr>   
             )
     } else {
         return (
             <tr>
-                <td onClick={handleShowAdding} className='clickable' colSpan='3'>+ Add Roles</td>
+                <td onClick={handleShowAdding} className='clickable' colSpan='4'>+ Add Roles</td>
             </tr>
         )
     }
