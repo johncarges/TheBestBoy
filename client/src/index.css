@@ -6,11 +6,49 @@
   --main-bg-color: #f0f0f0;
   --gold-detail: #eeb224;
   --navbar-green:  #558f5d;
-  --standard-border: #9aa3b5 1px solid;
+  --standard-border: #b9b6a9 2px solid;
+  --standard-box-radius: -2px 2px 1px #d4d3d1;
 }
 
 .clickable:hover {
   cursor: pointer;
+}
+
+.welcome-page-container {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  justify-content: space-evenly
+}
+
+/* AUTH */
+
+.welcome-page-auth-forms {
+  padding:3rem;
+  width: 40%;
+  max-width:600px;
+}
+
+.welcome-page-information {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+}
+
+.sign-up-container,
+.login-container {
+  padding:3rem 0rem;
+}
+
+.sign-up-first-name-input,
+.sign-up-last-name-input,
+.sign-up-username-input,
+.sign-up-email-input,
+.sign-up-password-input,
+.login-username-input,
+.login-password-input {
+  margin-bottom:1rem;
 }
 
 .navbar-container {
@@ -64,6 +102,7 @@
 
 .nav-username {
   font-style: italic;
+  font-weight: 100;
 }
 
 
@@ -77,19 +116,50 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 2rem 0rem;
 }
+
+.new-production-input {
+  width: 100%;
+}
+
+/* .productions-header {
+  margin:1rem 0rem;
+} */
 
 .productions-list {
   list-style: none;
 }
 
 .production-tile-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   border: var(--standard-border);
   border-radius:10px;
   margin: 0.5rem 0rem;
   padding: 0.5rem;
+  max-height:10rem;
+  overflow-y:hidden;
 }
 
+.production-tile-title {
+  width: 30%;
+  overflow: auto;
+  font-weight:200;
+}
+
+.production-tile-notes-preview {
+  width: 30%;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+}
+
+.production-tile-dates {
+  width:30%;
+}
+
+/* PRODUCTION DETAIL */
 .core-crew-modal > div >div{
   width:700px;
 }
@@ -167,15 +237,34 @@
 
 .production-detail-page-info {
   border: var(--standard-border);
+  box-shadow: -2px 2px 1px #d4d3d1;
   border-radius: 10px;
   margin: 4rem 0rem 2rem 0rem;
-  padding: .5rem;
+  padding: 1rem;
 }
 
 .production-detail-page-title {
   padding-bottom:2rem;
 }
 
+.production-detail-adding-dates-container {
+  height:5rem;
+}
+
+.adding-dates-submit-button {
+  margin-right: .5rem;
+}
+
+.delete-production-button-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1rem 0rem;
+}
+
+.confirm-delete-button {
+  margin-right: .5rem
+}
 
 .production-detail-page-calendar {
   padding-top: 2rem;
@@ -183,6 +272,34 @@
 }
 
 /* SHOOTDAY PAGES */
+.shootday-page-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* .shootday-page-info-left-side {
+
+} */
+
+.shootday-page-info-right-side {
+  margin:1rem 3rem 0rem 0rem;
+  width: 40%
+}
+
+
+.shootday-name-and-back {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem
+}
+
+.shootday-production-name {
+  margin:.25rem 0rem 0rem 2rem;
+  font-style:italic;
+  font-weight:200
+}
+
 .shootday-date-and-buttons {
   display: flex;
   flex-direction: row;
@@ -195,6 +312,45 @@
 
 .shootday-page-info-location {
   margin-bottom: 1rem
+}
+
+.location-edit-input {
+  width:60%;
+}
+
+.location-edit-icon {
+  font-size:16px;
+  margin: .25rem .5rem;
+}
+
+.shootday-notes-container {
+  padding:1rem;
+  border: var(--standard-border);
+  border-radius: 1px;
+  border-radius: 5px;
+  max-height: 10rem;
+  overflow:hidden
+}
+
+
+.shootday-notes-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.shootday-notes {
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+}
+
+.shootday-notes-textarea{
+  width:100%;
+}
+
+.shootday-notes-preview {
+  white-space: pre-wrap;
 }
 
 /* .shootday-crewlist-table-container {
@@ -213,6 +369,7 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  max-width: 1000px;
 }
 
 .crew-filter-container {
@@ -245,7 +402,7 @@
 }
 
 .crew-list :nth-child(2n+2) {
-  background-color: #adb5c3;
+  background-color: #e6e7df;
 }
 
 .crew-list-item {
@@ -298,13 +455,15 @@
 }
 
 .assign-crew-results-container {
-  padding: 1rem;
+  padding-top: 1rem;
 }
 
 .assign-crew-results {
   list-style-type: none;
-  max-height: 200px;
+  max-height: 220px;
   overflow: auto;
+  margin-bottom: 0rem;
+  border: var(--standard-border)
 }
 
 /* AddWorkdayModal */
@@ -331,7 +490,7 @@
 
 .error-message {
   color:#f33;
-  font-size: 12px;
+  font-size: 14px;
   height: .5rem;
 }
 
@@ -348,4 +507,38 @@
 
 .notes-editing-button-row > i{
   margin-left:0.5rem;
+}
+
+
+.back-link {
+  text-decoration: none;
+  color:#ffffff;
+  background-color:var(--navbar-green);
+  border: var(--standard-border);
+  border-radius: 5px;
+  width:fit-content;
+  padding: .5rem
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
 }

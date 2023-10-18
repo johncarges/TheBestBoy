@@ -2,7 +2,7 @@ import { useState } from "react"
 
 export default function AddCoreCrewModalButton(props){
 
-    const roles = ['Gaffer','Best Boy','Generator Operator','Lamp Operator','Dimmer Board Operator']
+    const roles = ['Gaffer','Best Boy','Dimmer Board Operator','Generator Operator','Lamp Operator']
 
 
     const {handleAddRole} = props
@@ -27,7 +27,7 @@ export default function AddCoreCrewModalButton(props){
                         </ul>
                     </div>
                 </td>
-                <td onClick={handleCloseAdding} className='clickable'>x</td>
+                <td colSpan='2' onClick={handleCloseAdding} className='clickable'>x</td>
             </tr>   
             )
     } else {

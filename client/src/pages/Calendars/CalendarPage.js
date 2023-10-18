@@ -12,11 +12,11 @@ export default function CalendarPage() {
 
     return (
         <div>
-            <h1>October</h1>
-            <button
+            {/* <h1>October</h1> */}
+            {/* <button
                 onClick={handleClickFormat}>
                 {weekFormat ? 'Month':'Week'}
-            </button>
+            </button> */}
             {weekFormat 
             ? <h1>WeekView</h1>
             : <MonthView/>}

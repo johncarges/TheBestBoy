@@ -56,18 +56,19 @@ export default function AddProduction({handleAddProduction}){
                     <form>
                         <input 
                             value={newProductionName}
+                            className='new-production-input'
                             onChange={onChange}
                             placeholder='Production Name'/>
                     </form>
                     {errorBlock}
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={onSubmit}>
+                    <Button onClick={onSubmit}>
                         Submit
-                    </button>
-                    <button onClick={handleClose}>
+                    </Button>
+                    <Button onClick={handleClose}>
                         Cancel
-                    </button>
+                    </Button>
                 </Modal.Footer>
 
             </Modal>

@@ -44,7 +44,7 @@ class Productions(Resource):
         if (best_boy_id:=session.get('best_boy_id')):
             productions = Production.query.filter(Production.best_boy_id==best_boy_id).all()
             return [prod.to_dict() for prod in productions if prod.is_ongoing()], 200
-        return {'error':'401 Unauthorized'}, 401
+        return {'error':'401 No User'}, 401
 
     def post(self):
         if (best_boy_id:=session.get('best_boy_id')):
@@ -52,7 +52,8 @@ class Productions(Resource):
             try:
                 new_prod = Production(
                     name=rq.get('name'),
-                    best_boy_id=best_boy_id
+                    best_boy_id=best_boy_id,
+                    notes=''
                 )
                 db.session.add(new_prod)
                 db.session.commit()
@@ -451,23 +452,23 @@ class Signup(Resource):
         email = rq.get('email')
         password = rq.get('password')
 
-        best_boy = BestBoy(
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-        )
-
-        best_boy.password_hash = password
-        
         try:
+            best_boy = BestBoy(
+                username=username,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+            )
+
+            best_boy.password_hash = password
+        
             db.session.add(best_boy)
             db.session.commit()
             session['best_boy_id'] = best_boy.id
             
             return best_boy.to_dict(), 201
-        except ValueError:
-            return {'error':'Unprocessable Entity'}, 422
+        except ValueError as e:
+            return {'error':str(e)}, 422
         
 api.add_resource(Signup, '/signup', endpoint='signup')
 

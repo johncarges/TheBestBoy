@@ -112,12 +112,12 @@ export default function EditCoreCrewModal(props) {
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleSubmit}>
+                    <Button onClick={handleSubmit}>
                         Update
-                    </button>
-                    <button onClick={handleClose}>
+                    </Button>
+                    <Button onClick={handleClose}>
                         Close
-                    </button>
+                    </Button>
                 </Modal.Footer>
 
             </Modal>
