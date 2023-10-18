@@ -12,7 +12,7 @@ export default function CrewTable({workdayList, handleUpdateWorkday}) {
 
     const workdaysSorted = sortDepartment(workdayList)
 
-    const crewList = workdaysSorted.map((workday)=>{
+    const crewList = workdaysSorted?.map((workday)=>{
         return (
             <CrewTableRow 
             key={workday.id}

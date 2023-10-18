@@ -1,6 +1,8 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../../context/user"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 export default function LoginForm(){
     
@@ -14,6 +16,9 @@ export default function LoginForm(){
     const [errorMessage, setErrorMessage] = useState('')
     
     function onChange(e) {
+        if (errorMessage.length > 0) {
+            setErrorMessage('')
+        }
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -38,25 +43,27 @@ export default function LoginForm(){
     }
 
     return (
-        <div>
-            <h1>Login</h1>
-            <p>{errorMessage}</p>
-            <form onSubmit={onSubmit}>
-                <label htmlFor='username'>Username</label>
+        <div className='login-container'>
+            <h1 className='login-header'>Login</h1>
+            <p className='error-message'>{errorMessage}</p>
+            <Form onSubmit={onSubmit}>
+                <label className='login-username-label' htmlFor='username'>Username</label>
                 <input 
+                    className='form-control login-username-input'
                     name='username'
                     value={formData.username}
                     onChange={onChange}    
                 />
-                <label htmlFor='password'>Password</label>
+                <label className='login-password-label' htmlFor='password'>Password</label>
                 <input 
+                    className='form-control login-password-input'
                     name='password'
                     type='password'
                     value={formData.password}
                     onChange={onChange}    
                 />
-                <button type='submit'>Submit</button>
-            </form>
+                <Button className='login-submit-button' type='submit'>Submit</Button>
+            </Form>
         </div>
     )
 }

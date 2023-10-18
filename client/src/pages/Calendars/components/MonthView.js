@@ -16,12 +16,33 @@ export default function MonthView() {
         })
     },[])
 
+    function renderEventContent(eventInfo) {
+        // console.log(eventInfo.event)
+        return (
+            <div>
+                <p>{eventInfo.event.title}</p>
+                <p className='to-hire'><i>{eventInfo.event.extendedProps.description}</i></p>
+            </div>
+        )
+    }
+    console.log(events[0])
+    const eventsToRender = events.map((event) =>{
+        return {
+            'id':event.id,
+            'title': event.production.name,
+            'date': event.date,
+            'description': `To hire: ${event.to_hire}`
+        }
+    })
+
     return (
         <div>
             <FullCalendar
                 plugins={[ dayGridPlugin ]}
                 initialView='dayGridMonth'
-                events={events}
+                events={eventsToRender}
+                eventContent={renderEventContent}
+            eventClassNames={['daygrid-event']}
             />
         </div>
     )

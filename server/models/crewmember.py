@@ -31,16 +31,25 @@ class Crewmember(db.Model):
         return cls.query.filter_by(id=id).first()
     
     def to_dict(self):
-        return {
-            'id': self.id,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'phone': self.phone,
-            'email': self.email,
-            'productions': [prod.name for prod in self.productions()],
-            'roles': self.roles()
-        }
-    
+        try:
+            return {
+                'id': self.id,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'phone': self.phone,
+                'email': self.email,
+                'productions': [prod.name for prod in self.productions()] if self.productions() else [],
+                'roles': self.roles()
+            }
+        except:
+            print({
+                'id': self.id,
+                'first_name': self.first_name,
+                'last_name': self.last_name,
+                'phone': self.phone,
+                'productions':self.productions()})
+
+
     def to_dict_basic(self):
         return {
             'id': self.id,

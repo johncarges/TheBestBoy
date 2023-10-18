@@ -5,22 +5,22 @@ import CrewNameWithModal from "../../../components/crew/CrewNameWithModal"
 export default function CoreCrewList({coreRoleList, updateCoreCrew,productionID}) {
 
 
-    const roles = ['Gaffer','Best Boy','Generator Operator','Lamp Operator','Dimmer Board Operator']
+    const roles = ['Gaffer','Best Boy','Generator Operator','Dimmer Board Operator','Lamp Operator']
 
 
     function renderedRoleList(role) {
-        return coreRoleList.filter(position =>(position.role===role)).map(position=>{
+        return coreRoleList.filter(position =>(position.role===role)).map((position,index)=>{
             return position.crewmember
-            ? <li><CrewNameWithModal crewmember={position.crewmember}/></li>
-            : <li>Unassigned</li>
+            ? <li key={index}><CrewNameWithModal crewmember={position.crewmember}/></li>
+            : <li key={index}>Unassigned</li>
         })
     }
 
 
-    const renderedCoreList2 = roles.map(role => {
+    const renderedCoreList = roles.map((role,index) => {
         if (coreRoleList.filter(position =>(position.role===role)).length >0) {
             return (
-                <li className='core-list-role'>
+                <li key={index} className='core-list-role'>
                     <p className='specific-role-name'>{role}</p>
                     <ul className='specific-role-list'>
                         {renderedRoleList(role)}
@@ -34,7 +34,7 @@ export default function CoreCrewList({coreRoleList, updateCoreCrew,productionID}
         <div className='core-crew-list-container'>
             <h3>Core Crew:</h3>
             <ul className='core-crew-outer-list'>
-                {renderedCoreList2}
+                {renderedCoreList}
             </ul>
             <EditCoreCrewModal 
             coreRoleList={coreRoleList} 

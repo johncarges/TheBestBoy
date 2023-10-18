@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {useHistory} from 'react-router-dom'
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import Button from "react-bootstrap/Button";
 import CalendarComponent from "../../components/calendars/CalendarComponent";
-import formatDate from '../../utils/FormatDate'
 import formatDateForPost from "../../utils/FormatDateForPost";
 import CoreCrewList from "./components/CoreCrewList";
 import EditableNotes from "../../components/misc/EditableNotes";
+import { Link } from "react-router-dom/cjs/react-router-dom";
+import Button from 'react-bootstrap/Button'
+import AddDatesButtons from "./components/AddDatesButtons";
 
 export default function ProductionDetailPage() {
 
@@ -25,7 +26,7 @@ export default function ProductionDetailPage() {
 
     const [addingDates, setAddingDates] = useState(false)
     const [datesToAdd, setDatesToAdd] = useState([])
-
+    const [deletingProduction,setDeletingProduction]=useState(false)
 
     useEffect(()=> {
         fetch(`/productions/${id}`)
@@ -33,34 +34,25 @@ export default function ProductionDetailPage() {
             if (r.ok) {
                 r.json().then(setProductionInfo)
             } else {
-                history.push()
+                r.json().then(console.log)
             }
         })
     },[])
 
-    let schedule;
-
-    if (productionInfo.shootdays.length) {
-        schedule = productionInfo.shootdays.map((shootday)=> (
-            <li>
-                <p>{shootday.date}</p>
-            </li>
-        ))
-    } else {
-        schedule = (
-            <li> No days scheduled yet! </li>
-        )
-    }
 
     function handleStartAdding() {
         setAddingDates(true)
     }
 
+    function handleCancel() {
+        setDatesToAdd([])
+        setAddingDates(false)
+    }
+
     function handleClickDate(date) {
         if (addingDates) {
-            if (datesToAdd.includes(date)) {
-                console.log(date)
-                setDatesToAdd(datesToAdd.filter(d=>d!==date))
+            if (datesToAdd.map(date=>date.dateStr).includes(date.dateStr)) {
+                setDatesToAdd(datesToAdd.filter(d=>d.dateStr!==date.dateStr))
             } else {
                 setDatesToAdd([
                     ...datesToAdd,
@@ -118,36 +110,57 @@ export default function ProductionDetailPage() {
                         notes: data['notes']
                     })
                 })
+            } else {
+                r.json().then(console.log)
             }
         })
+    }
+
+    function handleDeleteProduction() {
+        fetch(`/productions/${productionInfo.id}`,{
+            method:"DELETE"
+        }).then(r=> {
+            if (r.ok){
+                history.push('/home/productions')
+            }
+        })
+        
     }
 
     return (
         <div className='production-detail-page-container'>
             <div className='production-detail-page-left'>
-                <Button onClick={history.goBack}>Back</Button>
+                <Link className='back-link' to={`/home/productions/`}>Back</Link>
                 <div className='production-detail-page-info'>
                     <h1 className='production-detail-page-title'>{productionInfo.name}</h1>
-                    {/* <p className='production-detail-page-notes'>{productionInfo.notes}</p> */}
                     <EditableNotes notes={productionInfo['notes']} onSubmit={updateProductionNotes}/>
                 </div>
                 <div className='production-detail-adding-dates-container'>
-                    {addingDates
-                        ? <button onClick={submitDates}>Submit</button>
-                        : <button onClick={handleStartAdding}>Add Dates</button>
-                        }
+                    <AddDatesButtons 
+                        submitDates={submitDates}
+                        handleStartAdding={handleStartAdding}
+                        handleCancel={handleCancel}
+                        addingDates={addingDates}
+                    />
                 </div>
+                {deletingProduction 
+                    ? <div className='delete-production-button-area'>
+                        <Button className='confirm-delete-button' variant='danger' onClick={handleDeleteProduction}>Confirm</Button> 
+                        <Button onClick={()=>setDeletingProduction(false)}>Cancel</Button>
+                        <p>Confirm Delete?</p>
+                        </div>
+                    : <div className='delete-production-button-area'><Button variant='danger' onClick={()=>setDeletingProduction(true)}>Delete Production</Button></div>}
                 <CoreCrewList 
-                coreRoleList={productionInfo.core_roles} 
-                updateCoreCrew={updateCoreCrew}
-                productionID={productionInfo.id}/>
+                    coreRoleList={productionInfo.core_roles} 
+                    updateCoreCrew={updateCoreCrew}
+                    productionID={productionInfo.id}/>
             </div>
             <div className='production-detail-page-calendar'>
                 <CalendarComponent 
-                shootdays={productionInfo.shootdays}
-                addingDates={addingDates}
-                datesToAdd={datesToAdd}
-                handleClickDate={handleClickDate}/>
+                    shootdays={productionInfo.shootdays}
+                    addingDates={addingDates}
+                    datesToAdd={datesToAdd}
+                    handleClickDate={handleClickDate}/>
             </div>
         </div>
     )

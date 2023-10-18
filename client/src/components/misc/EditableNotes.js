@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import Button from "react-bootstrap/Button"
 
 
 export default function EditableNotes(props) {
@@ -15,7 +14,7 @@ export default function EditableNotes(props) {
     }
 
     useEffect(()=>{
-        setFormData(`${notes}`)
+        setFormData(`${notes}`==='null' ? '' : `${notes}`)
     },[notes])
 
     const changeFormData = (e)=>setFormData(e.target.value)
@@ -35,8 +34,6 @@ export default function EditableNotes(props) {
         : (<div className='notes-editing-button-row'>
             <i className="fa-solid fa-check clickable" onClick={handleSubmit}></i>
             <i className="fa-solid fa-xmark clickable" onClick={handleCancel}></i>
-            {/* <Button onClick={handleSubmit}>Submit</Button>
-            <Button onClick={handleCancel}>Cancelt</Button> */}
         </div>)
     return (
         <div className='notes-container'>

@@ -7,15 +7,15 @@ import Table from 'react-bootstrap/Table'
 export default function AddWorkdayModal({handleAddWorkdays}) {
     const roles = ['Gaffer', 'Best Boy', 'Generator Operator', 'Dimmer Board Operator', 'Lamp Operator']
     
-    const [showInfo, setShowInfo] = useState(false)
     
     const initialRoleCount = {}
     roles.forEach( role => {
         initialRoleCount[role] = 0
     });
     const [roleCounts, setRoleCounts] = useState(initialRoleCount)
-
-
+    
+    
+    const [showInfo, setShowInfo] = useState(false)
     const handleClose = () => setShowInfo(false)
     const handleShowInfo = () => setShowInfo(true)
 
@@ -63,12 +63,12 @@ export default function AddWorkdayModal({handleAddWorkdays}) {
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleSubmit}>
+                    <Button onClick={handleSubmit}>
                         Add
-                    </button>
-                    <button onClick={handleClose}>
+                    </Button>
+                    <Button onClick={handleClose}>
                         Close
-                    </button>
+                    </Button>
                 </Modal.Footer>
 
             </Modal>

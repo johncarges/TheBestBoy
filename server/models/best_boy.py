@@ -29,6 +29,10 @@ class BestBoy(db.Model):
     
     @password_hash.setter
     def password_hash(self, password):
+        #
+        if len(password) < 8:
+            raise ValueError('Password must be at least 8 characters')
+        #
         password_hash = bcrypt.generate_password_hash(
             password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
@@ -56,3 +60,14 @@ class BestBoy(db.Model):
             'email': self.email
         }
     
+    @validates('username','first_name','last_name')
+    def validate_field(self, key, value):
+        if len(value) == 0:
+            raise ValueError(f'{key} must be non-empty')
+        return value
+    
+    @validates('email')
+    def validate_email(self, key, address):
+        if (address,) in db.session.query(BestBoy.email).all():
+            raise ValueError('Account already exists with this email')
+        return address

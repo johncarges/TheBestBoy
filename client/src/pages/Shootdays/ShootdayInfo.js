@@ -6,6 +6,10 @@ import CrewTable from "./components/CrewTable"
 import AddWorkdayModal from "./components/AddWorkdayModal"
 import formatDate from "../../utils/FormatDate"
 import sortDepartment from "../../utils/SortDepartment"
+import BackButton from "../../components/misc/BackButton"
+import { Link } from "react-router-dom/cjs/react-router-dom"
+import EditableLocation from "./components/EditableLocation"
+import ShootdayNotesModal from "./components/ShootdayNotesModal"
 
 export default function ShootdayInfo(props) {
 
@@ -14,6 +18,8 @@ export default function ShootdayInfo(props) {
     
     const shootdays = history.location.state
     const shootdayIDs = shootdays.map(sd=>parseInt(sd.id))
+
+    const production_id = shootdays[0]?.production.id
 
     const [shootdayInfo, setShootdayInfo] = useState({
         id: '',
@@ -24,6 +30,8 @@ export default function ShootdayInfo(props) {
         notes: '',
         workdays: []
     })
+
+    
 
     const [renderToggle, setRenderToggle] = useState(false)
     // use to re-render after hitting next or previous
@@ -36,6 +44,8 @@ export default function ShootdayInfo(props) {
         .then(r=>{
             if (r.ok) {
                 r.json().then(setShootdayInfo)
+            } else {
+                r.json().then(console.log)
             }
         })
     },[renderToggle])
@@ -118,30 +128,63 @@ export default function ShootdayInfo(props) {
         setShootdayInfo({
             ...shootdayInfo,
             workdays: [
-                ...shootdayInfo.workdays.filter(wd=>wd.id != workday.id),
+                ...shootdayInfo.workdays.filter(wd=>wd.id !== workday.id),
                 workday
             ]
         })
     }
 
+    function handleUpdateShootdayInfo (key, value) {
+        fetch(`/shootdays/${shootdayInfo.id}`,{
+            method: 'PATCH',
+            headers:{'content-type':'application/json','accepts':'application/json'},
+            body: JSON.stringify({[key]:value})
+        }).then(r=> {
+            if (r.ok){
+                r.json().then(data=>{
+                    setShootdayInfo({
+                        ...shootdayInfo,
+                        [key]: data[key]
+                    })})
+            } else {
+                r.json().then(console.log)
+            }
+        })
+    }
 
+    function handleUpdateLocation(newLocation) {
+        handleUpdateShootdayInfo('location',newLocation)
+    }
 
+    function handleUpdateNotes(newNotes) {
+        handleUpdateShootdayInfo('notes',newNotes)
+    }
 
 
     return (
         <div className='shootday-page'>
             <div className='shootday-page-info'>
                 <div className='shootday-page-info-left-side'>
-                    <h2>{shootdayInfo.production.name}</h2>
+                    <div className='shootday-name-and-back'>
+                        <Link className='back-link' to={`/home/productions/${production_id}`}>Back</Link>
+                        <h2 className='shootday-production-name'>{shootdayInfo.production.name}</h2>
+                    </div>
                     <div className='shootday-date-and-buttons'>
                         {previousShootdayButton}
                         <h2 className='shootday-date'>{formatDate(shootdayInfo.date)}</h2>
                         {nextShootdayButton}
                     </div>
-                    <h3 className='shootday-page-info-location'>Location: {shootdayInfo.location}</h3>
+                    <EditableLocation 
+                        location={shootdayInfo.location}
+                        onUpdate={handleUpdateLocation}
+                        toggle={toggle}/>
                 </div>
-                <div className='shooday-page-info-right-side'>
-
+                <div className='shootday-page-info-right-side'>
+                    <ShootdayNotesModal 
+                    className='shootday-notes-modal' 
+                    notes={shootdayInfo.notes} 
+                    handleUpdate={handleUpdateNotes} 
+                    toggle={toggle}/>
                 </div>
             </div>
             <CrewTable workdayList={shootdayInfo.workdays} handleUpdateWorkday={handleUpdateWorkday}/>

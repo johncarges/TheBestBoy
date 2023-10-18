@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../../../context/user"
-
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 
 
@@ -17,11 +18,29 @@ export default function SignUpForm(){
     const [formData, setFormData]=useState(initialForm)
     const {changeUser} = useContext(UserContext)
 
+    const [errorMessage, setErrorMessage] = useState('')
+
     function onChange(e) {
+        if (errorMessage.length>0) {
+            setErrorMessage('')
+        }
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         })
+    }
+
+    function showError(errorResponse) {
+        const er = errorResponse.error
+        if (er.includes(' must be non-empty')){
+            setErrorMessage('All fields are required')
+        } else if (er==='Password must be at least 8 characters') {
+            setErrorMessage('Password must be at least 8 characters')
+        } else if (er==='Account already exists with this email') {
+            setErrorMessage('Account already exists with this email, please log in')
+        } else {
+            console.log(er)
+        }
     }
 
     function onSubmit(e) {
@@ -34,51 +53,62 @@ export default function SignUpForm(){
         }).then(r=> {
             if (r.ok) {
                 r.json().then(changeUser)
+            } else {
+                r.json().then(showError)
             }
         })
 
     }
 
     return (
-        <div>
+        <div className='sign-up-container'>
             <h1>Signup</h1>
-            <form onSubmit={onSubmit}
-            autocomplete='off'>
-                <label>First Name</label>
+            <p className='error-message'>{errorMessage}</p>
+            <Form onSubmit={onSubmit} autoComplete='off'>
+                <input style={{display:"none"}}/>
+                <input type="password" style={{display:"none"}}/>
+                
+                <label className='sign-up-first-name-label'>First Name</label>
                 <input 
+                    className='form-control sign-up-first-name-input'
                     name='first_name'
                     value={formData.first_name}
                     onChange={onChange}    
                 />
-                <label>Last Name</label>
+                <label className='sign-up-last-name-label'>Last Name</label>
                 <input 
+                    className='form-control sign-up-last-name-input'
                     name='last_name'
                     value={formData.last_name}
                     onChange={onChange}    
                 />
-                <label>Email</label>
+                <label className='sign-up-email-label'>Email</label>
                 <input 
+                    className='form-control sign-up-email-input'
                     name='email'
                     value={formData.email}
                     onChange={onChange}    
                 />
-                <label>Username</label>
+                <label className='sign-up-username-label'>Username</label>
                 <input 
+                    className='form-control sign-up-username-input'
                     name='username'
                     value={formData.username}
                     onChange={onChange}
-                    autocomplete='off'    
+                    autoComplete='off'    
                 />
-                <label>Password</label>
+                <label className='sign-up-password-label'>Password</label>
                 <input 
+                    className='form-control sign-up-password-input'
                     name='password'
                     type='password'
                     value={formData.password}
                     onChange={onChange}
-                    autocomplete='off'    
+                    autoComplete='nope'
+                    autocomplete='new-password'    
                 />
-                <button type='submit'>Submit</button>
-            </form>
+                <Button type='submit'>Submit</Button>
+            </Form>
         </div>
     )
 }

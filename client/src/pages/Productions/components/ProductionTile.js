@@ -5,11 +5,11 @@ import formatDate from '../../../utils/FormatDate'
 export default function ProductionTile({production}) {
     
     const dates = production.start_date
-        ?( <div>
+        ?( <div className='production-tile-dates'>
                 <p>Start Date: {formatDate(production.start_date)}</p>
                 <p>End Date: {formatDate(production.end_date)}</p>
             </div>)
-        : (<p>No shootdays scheduled yet</p>)
+        : (<div className='production-tile-dates'><p>No shootdays scheduled yet</p></div>)
     
 
     const history = useHistory()
@@ -21,8 +21,8 @@ export default function ProductionTile({production}) {
 
     return (
         <li className='production-tile-container clickable'onClick={clickIn}>
-            <p className='production-tile-title'>{production.name}</p>
-            
+            <h4 className='production-tile-title'>{production.name}</h4>
+            <p className='production-tile-notes-preview'>{production.notes}</p>
             {dates}
         </li>
 

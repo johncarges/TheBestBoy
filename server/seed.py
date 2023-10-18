@@ -15,8 +15,8 @@ from models import BestBoy, Crewmember, Production, Shootday, Workday,CoreRole
 NUMBESTBOYS=2
 NUMPRODUCTIONS=10
 NUMCREWMEMBERS=100
-NUMSHOOTDAYS=20
-NUMWORKDAYS=200
+NUMSHOOTDAYS=200
+NUMWORKDAYS=2000
 
 EARLIESTDAY= d.now() - timedelta(days=30)
 LATESTDAY = d.now() + timedelta(days=60)
@@ -25,6 +25,8 @@ ROLES = ['Gaffer', 'Best Boy', 'Generator Operator','Lamp Operator','Dimmer Boar
 MOVIE_TITLES = ['Soldier Of Our Culture', 'Creature Of Everywhere','Friend Of Life', 'Pilot Of Eternity','Creatures From The Portal','Volunteers Of Space','Rebels Of Space',
 "Creatures Of Earth's Legacy","Traitors And Officers","Armies And Officers","Mercenaries And Aliens","Martians And Guardians","Statue Of The Ocean","Edge Of Honor",
 "Demise Of New Earth","Reincarnation Of Earth's Legacy","Alive In A Nuclear War","Frozen By The Eyes","Broken Outer Space","Haunted By Technology","The Immortals", "Married To The Ocean"]
+
+crew_potential_roles = {role:[] for role in ROLES} 
 
 if __name__ == '__main__':
     fake = Faker()
@@ -44,14 +46,14 @@ if __name__ == '__main__':
         db.session.commit()
 
         print("Adding user Lola...")
-        new_bb= BestBoy(first_name="Lauren", last_name="Laffey",username="Lola",email="johncarges@gmail.com")
+        new_bb= BestBoy(first_name="Lauren", last_name="Laffey",username="Lola",email="lola@gmail.com")
         new_bb.password_hash = 'supersecure'
         db.session.add(new_bb)
         db.session.commit()
 
 
         print("Adding BB's...")
-        for _ in range(NUMBESTBOYS - 1):
+        for _ in range(NUMBESTBOYS - 2):
             first_name = fake.first_name()
             last_name = fake.last_name()
             username = first_name.lower() + last_name.lower()
@@ -64,23 +66,34 @@ if __name__ == '__main__':
         for _ in range(NUMPRODUCTIONS):
             name = MOVIE_TITLES.pop()
             notes = fake.paragraph()
-            new_prod = Production(name=name, best_boy_id=randint(1,NUMBESTBOYS), notes=notes)
+            new_prod = Production(name=name, best_boy_id=1, notes=notes)  # CURRENTLY HARD-CODED FOR John best boy
             db.session.add(new_prod)
         db.session.commit()
 
         print('Adding Shootdays...')
-        for _ in range(NUMSHOOTDAYS):
-            prod_id = randint(1,NUMPRODUCTIONS)
-            date = fake.date_between(EARLIESTDAY,LATESTDAY)
-            while Shootday.query.filter_by(date=date).first():
-                date = fake.date_between(EARLIESTDAY,LATESTDAY)
-            #crew_size = randint(1,10)
+        count = 0
+        skipped = 0
+        current_prod_id = 1
+        while count < NUMSHOOTDAYS:
+            date= d.now() + timedelta(days=count+skipped)
+            while date.weekday() in (5,6):
+                skipped+=1
+                date= d.now() + timedelta(days=count+skipped)
+            if randint(1,4) == 2:
+                skipped+=1
+                date= d.now() + timedelta(days=count+skipped)
             location_header = ['EXT','INT'][randint(0,1)]
             location = f'{location_header}: {fake.city()}'
             notes = fake.paragraph()
-            new_sd = Shootday(production_id=prod_id, date=date, location=location, notes=notes)
+            new_sd = Shootday(production_id=current_prod_id, date=date, location=location, notes=notes)
             db.session.add(new_sd)
             db.session.commit()
+            count +=1
+            if randint(1,8)==1:
+                current_prod_id+=1
+                if current_prod_id >= NUMPRODUCTIONS:
+                    current_prod_id =1
+
 
         print('Adding crewmembers...')
         for _ in range(NUMCREWMEMBERS):
@@ -97,7 +110,10 @@ if __name__ == '__main__':
                 phone=phone
             )
             db.session.add(new_cm)
-        db.session.commit()
+            db.session.commit()
+            for key in crew_potential_roles:
+                if randint(0,4)==4:
+                    crew_potential_roles[key].append(new_cm)
             
 
         print('Adding Workdays...')
@@ -108,8 +124,9 @@ if __name__ == '__main__':
             #rate, times, additional_terms
             if randint(0,5)>1:
                 sd = Shootday.find_by_id(shootday_id)
-                crewmember_id=randint(1,NUMCREWMEMBERS)
-                cm = Crewmember.find_by_id(crewmember_id)
+                # crewmember_id=randint(1,NUMCREWMEMBERS)
+                cm = rc(crew_potential_roles[role])  #Crewmember.find_by_id(crewmember_id)
+                crewmember_id=cm.id
                 while sd in cm.shootdays:
                     crewmember_id=randint(1,NUMCREWMEMBERS)
                     cm = Crewmember.find_by_id(crewmember_id)

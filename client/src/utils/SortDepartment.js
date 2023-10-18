@@ -19,6 +19,11 @@ export default function sortDepartment(crewList) {
         }
     }
 
+    if (!crewList) {
+        console.log(crewList)
+        return null 
+    }
+
     crewList.sort((a,b)=>{
         const diff = crewOrder[a.role] - crewOrder[b.role]
         if (diff){
