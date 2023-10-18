@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import ColorHash from '../../utils/ColorHash'
 
 
 
@@ -37,8 +38,10 @@ export default function CalendarComponent(props) {
         return {'id': shootday.id, 
             'title': shootday.location || shootday.production.name, 
             'description':`To hire: ${shootday.to_hire}`, 
-            'date': shootday.date}
-    })
+            'display':'block',
+            'date': shootday.date,
+            'backgroundColor': 'hsl(120,50,70)'}
+    }) //ColorHash(shootday.production.id)
     const backgroundEvents = datesToAdd.map((date)=>{
         return {'start':date.dateStr, 'end':date.dateStr, 'display':'background', overlap:false}
     })
