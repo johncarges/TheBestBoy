@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: row;
   padding: 1rem;
-  justify-content: space-evenly
+  justify-content: space-evenly;
 }
 
 /* AUTH */
@@ -27,18 +27,22 @@
   padding:3rem;
   width: 40%;
   max-width:600px;
+  margin-left:4rem;
 }
 
 .welcome-page-information {
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center
+  align-items: center;
+  margin-right: 4rem;
 }
 
 .sign-up-container,
 .login-container {
   padding:3rem 0rem;
+  max-width: 275px;
 }
 
 .sign-up-first-name-input,
@@ -50,11 +54,14 @@
 .login-password-input {
   margin-bottom:1rem;
 }
+.signup-error {
+  height: 2rem;
+}
 
 .welcome-info-box {
   opacity: 0%;
   animation: fadein 2s linear forwards;
-  animation-delay: 1.5s;
+  animation-delay: 2s;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -71,6 +78,7 @@
 .welcome-page-welcome {
   opacity: 100%;
   animation: fadeout 1s linear forwards;
+  animation-delay:.5s
 }
 
 @keyframes fadeout {
@@ -105,11 +113,10 @@
 
 .nav-link {
   display: flex;
-  font:300 sans-serif;
   color:#282c34;
   text-decoration: none;
   padding: 1rem;
-  font-weight:150;
+  font-weight:300;
   margin: 0.25rem;
 }
 
@@ -136,20 +143,36 @@
 
 .nav-username {
   font-style: italic;
-  font-weight: 100;
+  font-weight: 200;
 }
 
 
 .main-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem;
   margin: 1rem;
 }
 
 /* HOME CALENDAR PAGE */
+.home-calendar-switch {
+  width: 100%;
+}
 
+.home-calendar-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .home-calendar-container {
-  height: 70%;
+  width: 100%;
+  max-width: 1400px;
+}
+
+tr[role='row'] {
+  max-height:100px;
 }
 
 /* PRODUCTIONS PAGE */
@@ -267,6 +290,8 @@
 } */
 
 .production-detail-page-container {
+  width: 100%;
+  max-width: 1500px;
   display: flex;
   flex-direction: row;
   justify-content: space-between
@@ -313,6 +338,12 @@
 }
 
 /* SHOOTDAY PAGES */
+
+.shootday-page {
+  width: 100%;
+  max-width: 1200px;
+}
+
 .shootday-page-info {
   display: flex;
   flex-direction: row;
@@ -364,6 +395,17 @@
   margin: .25rem .5rem;
 }
 
+.delete-shootday-button-area {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 0rem;
+}
+
+.confirm-shootday-delete-button {
+  margin-right: .5rem
+}
+
+
 .shootday-notes-container {
   padding:1rem;
   border: var(--standard-border);
@@ -401,6 +443,8 @@
 
 /* CREWMEMBERS PAGE */
 .crew-list-page-container {
+  width: 100%;
+  max-width: 1500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -487,9 +531,6 @@
   font-size: small;
 }
 
-.fc-daygrid-day-frame {
-  height: 100%
-}
 
 .fc-daygrid-day-bottom {
   height: 0em;
@@ -560,6 +601,8 @@
   font-size: 14px;
   height: .5rem;
 }
+
+
 
 .note-box {
   width: 100%;

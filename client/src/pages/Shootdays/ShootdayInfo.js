@@ -190,12 +190,12 @@ export default function ShootdayInfo(props) {
                         onUpdate={handleUpdateLocation}
                         toggle={toggle}/>
                     {deletingShootday 
-                    ? <div className='delete-production-button-area'>
-                        <Button className='confirm-delete-button' variant='danger' onClick={handleDeleteShootday}>Confirm</Button> 
-                        <Button onClick={()=>setDeletingShootday(false)}>Cancel</Button>
+                    ? <div className='delete-shootday-button-area'>
+                        <Button className='confirm-shootday-delete-button' variant='danger' onClick={handleDeleteShootday}>Confirm</Button> 
+                        <Button className='confirm-shootday-delete-button' onClick={()=>setDeletingShootday(false)}>Cancel</Button>
                         <p>Confirm Delete?</p>
                         </div>
-                    : <div className='delete-production-button-area'><Button variant='danger' onClick={()=>setDeletingShootday(true)}>Delete Shootday</Button></div>}
+                    : <div className='delete-shootday-button-area'><Button variant='danger' onClick={()=>setDeletingShootday(true)}>Delete Shootday</Button></div>}
                 
                 </div>
                 <div className='shootday-page-info-right-side'>

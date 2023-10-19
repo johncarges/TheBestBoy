@@ -11,7 +11,7 @@ export default function CalendarPage() {
     }
 
     return (
-        <div>
+        <div className='home-calendar-switch'>
             {/* <h1>October</h1> */}
             {/* <button
                 onClick={handleClickFormat}>
