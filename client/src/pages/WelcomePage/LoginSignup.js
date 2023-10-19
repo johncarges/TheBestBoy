@@ -1,5 +1,6 @@
-import LoginForm from "./authforms/LoginForm";
-import SignUpForm from "./authforms/SignUpForm";
+import LoginForm from "./components/LoginForm";
+import SignUpForm from "./components/SignUpForm";
+import Welcome from "./components/Welcome";
 
 export default function LoginSignup(props) {
 
@@ -11,9 +12,7 @@ export default function LoginSignup(props) {
                 <LoginForm/>
                 <SignUpForm/>
             </div>
-            <div className='welcome-page-information'>
-                <h1>Welcome!</h1>
-            </div>
+            <Welcome />
         </div>
     )
 

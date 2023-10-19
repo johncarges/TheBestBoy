@@ -51,6 +51,40 @@
   margin-bottom:1rem;
 }
 
+.welcome-info-box {
+  opacity: 0%;
+  animation: fadein 2s linear forwards;
+  animation-delay: 1.5s;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% {opacity:1;}
+}
+
+.welcome-page-welcome {
+  opacity: 100%;
+  animation: fadeout 1s linear forwards;
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  100% {opacity:0;}
+}
+
+.welcome-message {
+  max-width: 400px;
+  text-overflow: wrap;
+}
+
+/* NAVBAR */
+
 .navbar-container {
   display: flex;
   background-color: var(--navbar-green);
@@ -109,6 +143,13 @@
 .main-body {
   padding: 1rem;
   margin: 1rem;
+}
+
+/* HOME CALENDAR PAGE */
+
+
+.home-calendar-container {
+  height: 70%;
 }
 
 /* PRODUCTIONS PAGE */
@@ -174,7 +215,7 @@
 .role-list-container {
   position:absolute;
   max-height: 150px;
-  background:#adb5c3;
+  background:#dce0e8;
   border:#282c34 solid 1px;
   border-radius: 3px;
   overflow: auto;
@@ -375,6 +416,7 @@
 .crew-filter-container {
   padding:1rem;
   margin-top:3rem;
+  height:fit-content;
   width: 30%;
   border: var(--standard-border);
   border-radius:10px;
@@ -412,6 +454,23 @@
 .crewmember-name {
   margin: 0
 }
+.add-crewmember-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-crewmember-container {
+  max-width: 500px;
+}
+
+.add-crewmember-header {
+  padding-bottom: 2rem;
+}
+
+.new-crewmember-submit-button {
+  margin-top: 1rem;
+}
 
 /* Calendar Views */
 
@@ -435,12 +494,18 @@
 .fc-daygrid-day-bottom {
   height: 0em;
 }
+/* .fc-event-main > div  {
+  overflow: hidden;
+  font-size: 12px;
+  margin-right: .5rem;
+} */
 
 .fc-event > div {
   overflow: hidden;
   font-size: 12px;
   margin-right: .5rem;
 }
+
 .fc-event > div >p {
   margin: 0rem;
 }
@@ -483,7 +548,8 @@
 .crew-list-search-list {
   position:absolute;
   max-height: 150px;
-  background:#adb5c3;
+  background:#dce0e8;
+  width: 300px;
   overflow: auto;
   z-index: 1;
   list-style-type: none

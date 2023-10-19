@@ -25,7 +25,7 @@ export default function CalendarComponent(props) {
         )
     }
 
-    function handleShootdayClick(eventClick) {
+    const handleShootdayClick = (eventClick) => {
         history.push({
             pathname:`/home/shootdays/${eventClick.event.id}`,
             state: shootdays
@@ -56,8 +56,8 @@ export default function CalendarComponent(props) {
         initialView='dayGridMonth'
         events={events} //
         dateClick={handleClickDate}
-        eventContent={renderEventContent}
         eventClick={handleShootdayClick}
+        eventContent={renderEventContent}
         eventClassNames={['daygrid-event']}
         />
     )
