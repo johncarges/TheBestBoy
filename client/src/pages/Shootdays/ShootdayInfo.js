@@ -31,6 +31,7 @@ export default function ShootdayInfo(props) {
         workdays: []
     })
 
+    const [deletingShootday, setDeletingShootday] = useState(false)
     
 
     const [renderToggle, setRenderToggle] = useState(false)
@@ -160,6 +161,16 @@ export default function ShootdayInfo(props) {
         handleUpdateShootdayInfo('notes',newNotes)
     }
 
+    function handleDeleteShootday() {
+        const prod_id = shootdayInfo.production.id
+        fetch(`/shootdays/${shootdayInfo.id}`, {
+            method: "DELETE"
+        }).then(r=>{
+            if (r.ok) {
+                history.push(`/home/productions/${prod_id}`)
+            }
+        })
+    }
 
     return (
         <div className='shootday-page'>
@@ -178,6 +189,14 @@ export default function ShootdayInfo(props) {
                         location={shootdayInfo.location}
                         onUpdate={handleUpdateLocation}
                         toggle={toggle}/>
+                    {deletingShootday 
+                    ? <div className='delete-production-button-area'>
+                        <Button className='confirm-delete-button' variant='danger' onClick={handleDeleteShootday}>Confirm</Button> 
+                        <Button onClick={()=>setDeletingShootday(false)}>Cancel</Button>
+                        <p>Confirm Delete?</p>
+                        </div>
+                    : <div className='delete-production-button-area'><Button variant='danger' onClick={()=>setDeletingShootday(true)}>Delete Shootday</Button></div>}
+                
                 </div>
                 <div className='shootday-page-info-right-side'>
                     <ShootdayNotesModal 
