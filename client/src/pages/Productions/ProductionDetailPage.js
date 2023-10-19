@@ -160,7 +160,8 @@ export default function ProductionDetailPage() {
                     shootdays={productionInfo.shootdays}
                     addingDates={addingDates}
                     datesToAdd={datesToAdd}
-                    handleClickDate={handleClickDate}/>
+                    handleClickDate={handleClickDate}
+                    startDate={productionInfo.start_date}/>
             </div>
         </div>
     )

@@ -10,10 +10,10 @@ import ColorHash from '../../utils/ColorHash'
 export default function CalendarComponent(props) {
 
     // const [selectedDates, setSelectedDates] = useState([])
-    const {shootdays,addingDates,datesToAdd, handleClickDate} = props
+    const {shootdays,addingDates,datesToAdd, handleClickDate, startDate} = props
 
     const history = useHistory()
-
+    
 
     function renderEventContent(eventInfo) {
         // console.log(eventInfo.event)
@@ -32,7 +32,7 @@ export default function CalendarComponent(props) {
         })
     }
 
-
+    
 
     const shootdayEvents = shootdays.map((shootday)=> {
         return {'id': shootday.id, 
@@ -47,7 +47,7 @@ export default function CalendarComponent(props) {
     })
 
     const events = [...shootdayEvents, ...backgroundEvents]
-
+    
 
     return (
         <FullCalendar
@@ -61,6 +61,7 @@ export default function CalendarComponent(props) {
         eventClassNames={['daygrid-event']}
         />
     )
+    
 
 }
 
