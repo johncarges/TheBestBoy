@@ -55,15 +55,17 @@ export default function MonthView() {
     })
 
     return (
-        <div>
-            <FullCalendar
-                plugins={[ dayGridPlugin]}
-                initialView='dayGridMonth'
-                events={eventsToRender}
-                eventContent={renderEventContent}
-                eventClick={handleShootdayClick}
-                eventClassNames={['daygrid-event']}
-            />
+        <div className='home-calendar-page'>
+            <div className='home-calendar-container'>
+                <FullCalendar
+                    plugins={[ dayGridPlugin]}
+                    initialView='dayGridMonth'
+                    events={eventsToRender}
+                    eventContent={renderEventContent}
+                    eventClick={handleShootdayClick}
+                    eventClassNames={['daygrid-event']}
+                />
+            </div>
         </div>
     )
 }

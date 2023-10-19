@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 
 export default function AddCrewmember() {
@@ -36,31 +38,37 @@ export default function AddCrewmember() {
     }
 
     return (
-        <div className='addCrewmemberContainer'>
-            <h1>Add Crewmember</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="first_name">First Name</label>
-                <input 
-                    name='first_name' 
-                    value={formData.first_name}
-                    onChange={handleChange}/>
-                <label htmlFor="last_name">Last Name</label>
-                <input 
-                    name='last_name'
-                    value={formData.last_name}
-                    onChange={handleChange}/>
-                <label htmlFor="email">Email</label>
-                <input 
-                    name='email'
-                    value={formData.email}
-                    onChange={handleChange}/>
-                <label htmlFor="phone">Phone Number</label>
-                <input 
-                    name='phone'   
-                    value={formData.phone}
-                    onChange={handleChange}/>
-                <button type='submit'>Submit</button>
-            </form>
+        <div className='add-crewmember-page'>
+            <div className='add-crewmember-container'>
+                <h1 className='add-crewmember-header'>Add Crewmember</h1>
+                <Form onSubmit={handleSubmit}>
+                    <label htmlFor="first_name">First Name</label>
+                    <input 
+                        className='form-control new-crewmember-first-name-input'
+                        name='first_name' 
+                        value={formData.first_name}
+                        onChange={handleChange}/>
+                    <label htmlFor="last_name">Last Name</label>
+                    <input 
+                        className='form-control new-crewmember-last-name-input'
+                        name='last_name'
+                        value={formData.last_name}
+                        onChange={handleChange}/>
+                    <label htmlFor="email">Email</label>
+                    <input 
+                        className='form-control new-crewmember-email-input'
+                        name='email'
+                        value={formData.email}
+                        onChange={handleChange}/>
+                    <label htmlFor="phone">Phone Number</label>
+                    <input 
+                        className='form-control new-crewmember-phone-input'
+                        name='phone'   
+                        value={formData.phone}
+                        onChange={handleChange}/>
+                    <Button className='new-crewmember-submit-button' type='submit'>Submit</Button>
+                </Form>
+            </div>
         </div>
     )
 

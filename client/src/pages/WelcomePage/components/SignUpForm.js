@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { UserContext } from "../../../context/user"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 
 
@@ -19,6 +20,8 @@ export default function SignUpForm(){
     const {changeUser} = useContext(UserContext)
 
     const [errorMessage, setErrorMessage] = useState('')
+    
+    const history = useHistory()
 
     function onChange(e) {
         if (errorMessage.length>0) {
@@ -52,7 +55,10 @@ export default function SignUpForm(){
             body: JSON.stringify(formData)
         }).then(r=> {
             if (r.ok) {
-                r.json().then(changeUser)
+                r.json().then(d=>{
+                    changeUser(d)
+                    history.push('/home')
+                })
             } else {
                 r.json().then(showError)
             }
