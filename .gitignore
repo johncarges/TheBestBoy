@@ -57,3 +57,6 @@ __pycache__
 # db files
 server/instance/
 *.db
+
+#Original Readme
+README-copy.md

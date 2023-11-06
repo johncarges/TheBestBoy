@@ -387,6 +387,7 @@ tr[role='row'] {
 }
 
 .location-edit-input {
+  height:2rem;
   width:60%;
 }
 

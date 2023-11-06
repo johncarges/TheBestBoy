@@ -24,6 +24,18 @@ export default function ProductionsPage() {
         })
     },[])
 
+    const sortStartDates = (a,b) => {
+        if (a.start_date && b.start_date) {
+            return a.start_date.localeCompare(b.start_date)
+        } else if (a.start_date) {
+            return -1
+        } else {
+            return 1
+        }
+    }
+
+    const sortedProductions = productions.sort(sortStartDates)
+
     const renderedProductions = productions.map((production)=> (
         <ProductionTile
             production={production}

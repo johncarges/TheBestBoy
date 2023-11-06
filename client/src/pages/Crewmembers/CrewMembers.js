@@ -53,12 +53,12 @@ export default function CrewmembersPage() {
         }
     })
 
-    const renderedCrewmembers = crewmembers.length > 0 ? roleFilteredCrewmembers.map((crewmember) => (
+    const renderedCrewmembers = roleFilteredCrewmembers.length > 0 ? roleFilteredCrewmembers.map((crewmember) => (
         <CrewmemberTile 
         key={crewmember.id} 
         crewmember={crewmember}/>
     ))
-        : <p>No crewmembers added yet!</p>
+        : crewmembers.length >0 ? <p>No matches found!</p>:<p>No crewmembers added yet!</p>
 
     
 
