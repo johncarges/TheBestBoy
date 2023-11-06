@@ -30,13 +30,17 @@
   margin-left:4rem;
 }
 
+.welcome-page-hline {
+  max-width: 275px;
+}
+
 .welcome-page-information {
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 4rem;
+  margin-right: 10rem;
 }
 
 .sign-up-container,

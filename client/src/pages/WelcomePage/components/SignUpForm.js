@@ -68,7 +68,7 @@ export default function SignUpForm(){
 
     return (
         <div className='sign-up-container'>
-            <h1>Signup</h1>
+            <h3>Signup</h3>
             <p className='error-message signup-error'>{errorMessage}</p>
             <Form onSubmit={onSubmit} autoComplete='off'>
                 <input style={{display:"none"}}/>
