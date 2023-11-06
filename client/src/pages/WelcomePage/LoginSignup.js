@@ -10,6 +10,7 @@ export default function LoginSignup(props) {
         <div className='welcome-page-container'>
             <div className='welcome-page-auth-forms'>
                 <LoginForm/>
+                <hr className='welcome-page-hline'/>
                 <SignUpForm/>
             </div>
             <Welcome />

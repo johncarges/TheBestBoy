@@ -44,7 +44,7 @@ export default function LoginForm(){
 
     return (
         <div className='login-container'>
-            <h1 className='login-header'>Login</h1>
+            <h2 className='login-header'>Login</h2>
             <p className='error-message'>{errorMessage}</p>
             <Form onSubmit={onSubmit}>
                 <label className='login-username-label' htmlFor='username'>Username</label>
