@@ -53,15 +53,17 @@ export default function ProductionsPage() {
     
 
     return (
-        <div>
+        <div className='prductions-page-container'>
             <div className='productions-list-header'>
                 <h1 className='productions-header'>Productions</h1>
                 <AddProduction
                     handleAddProduction={handleAddProduction}/>
             </div>
-            <ul className='productions-list'>
-                {renderedProductions}
-            </ul>
+            <div className='productions-list-container'>
+                <ul className='productions-list'>
+                    {renderedProductions}
+                </ul>
+            </div>
         </div>
     )
 

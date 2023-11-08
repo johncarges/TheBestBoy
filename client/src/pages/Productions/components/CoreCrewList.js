@@ -32,7 +32,7 @@ export default function CoreCrewList({coreRoleList, updateCoreCrew,productionID}
 
     return (
         <div className='core-crew-list-container'>
-            <h3>Core Crew:</h3>
+            <h5>Core Crew:</h5>
             <ul className='core-crew-outer-list'>
                 {renderedCoreList}
             </ul>

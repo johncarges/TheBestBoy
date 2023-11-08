@@ -132,7 +132,7 @@ export default function ProductionDetailPage() {
             <div className='production-detail-page-left'>
                 <Link className='back-link' to={`/home/productions/`}>Back</Link>
                 <div className='production-detail-page-info'>
-                    <h1 className='production-detail-page-title'>{productionInfo.name}</h1>
+                    <h3 className='production-detail-page-title'>{productionInfo.name}</h3>
                     <EditableNotes notes={productionInfo['notes']} onSubmit={updateProductionNotes}/>
                 </div>
                 <div className='production-detail-adding-dates-container'>
