@@ -11,7 +11,7 @@ export default function CrewNameWithModal(props) {
 
     return (
         <div>
-            <p className='clickable' onClick={handleShowInfo}>{`${crewmember.first_name} ${crewmember.last_name}`}</p>
+            <p className='clickable crew-name' onClick={handleShowInfo}>{`${crewmember.first_name} ${crewmember.last_name}`}</p>
             <Modal show={showInfo} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{crewmember.first_name} {crewmember.last_name}</Modal.Title>
