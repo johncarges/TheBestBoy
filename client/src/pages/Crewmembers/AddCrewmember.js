@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
@@ -67,6 +67,9 @@ export default function AddCrewmember() {
                         value={formData.phone}
                         onChange={handleChange}/>
                     <Button className='new-crewmember-submit-button' type='submit'>Submit</Button>
+                    <Link to='/home/crewmembers'>
+                        <Button className='new-crewmember-submit-button'>Back</Button>
+                    </Link>
                 </Form>
             </div>
         </div>
